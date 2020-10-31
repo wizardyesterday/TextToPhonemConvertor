@@ -1,0 +1,66 @@
+MODULE ANAL;
+
+CONST
+   MAXLINE = 80;                 (* MAXIMUM LENGTH OF INPUT BUFFER *)
+
+TYPE
+   ENGLISH = ARRAY[1..MAXLINE] OF CHAR;
+
+VAR
+   E_BUFFER:EXTERNAL ENGLISH;
+   E_LEN,E_INDEX,P_INDEX:EXTERNAL INTEGER;
+
+EXTERNAL PROCEDURE RUL_SRCH(PAR1,PAR2:INTEGER);
+EXTERNAL FUNCTION U_CASE(PAR1:CHAR):CHAR;
+
+{*****************************************************************************
+
+ ENG_TO_PH - CONVERT ENGLISH TEXT TO PHONEM STRING
+
+*****************************************************************************}
+
+PROCEDURE ENG_TO_PH(VAR INBUF:STRING);
+
+VAR
+   INDEX:INTEGER;
+
+BEGIN (* PROCEDURE *)
+   P_INDEX:=1;                    (* SET TO BEGINING OF BUFFER *)
+   E_INDEX:=1;                    (* SET TO BEGINING OF BUFFER *)
+   E_LEN:=LENGTH(INBUF);          (* COMPUTE MESSAGE LENGTH *)
+   FOR INDEX:=1 TO E_LEN DO
+      E_BUFFER[INDEX]:=U_CASE(INBUF[INDEX]); (* CONVERT TO UPPER CASE *)
+   WHILE E_INDEX <= E_LEN DO
+      CASE E_BUFFER[E_INDEX] OF
+         'A':RUL_SRCH(1,5);       (* PROCESS WITH THE RULES OF A *)
+         'B':RUL_SRCH(6,1);       (* PROCESS WITH THE RULES OF B *)
+         'C':RUL_SRCH(7,3);       (* PROCESS WITH THE RULES OF C *)
+         'D':RUL_SRCH(10,1);      (* PROCESS WITH THE RULES OF D *)
+         'E':RUL_SRCH(11,8);      (* PROCESS WITH THE RULES OF E *)
+         'F':RUL_SRCH(19,1);      (* PROCESS WITH THE RULES OF F *)
+         'G':RUL_SRCH(20,1);      (* PROCESS WITH THE RULES OF G *)
+         'H':RUL_SRCH(21,2);      (* PROCESS WITH THE RULES OF H *)
+         'I':RUL_SRCH(23,5);      (* PROCESS WITH THE RULES OF I *)
+         'J':RUL_SRCH(28,1);      (* PROCESS WITH THE RULES OF J *)
+         'K':RUL_SRCH(29,1);      (* PROCESS WITH THE RULES OF K *)
+         'L':RUL_SRCH(30,2);      (* PROCESS WITH THE RULES OF L *)
+         'M':RUL_SRCH(32,1);      (* PROCESS WITH THE RULES OF M *)
+         'N':RUL_SRCH(33,2);      (* PROCESS WITH THE RULES OF N *)
+         'O':RUL_SRCH(35,4);      (* PROCESS WITH THE RULES OF O *)
+         'P':RUL_SRCH(39,1);      (* PROCESS WITH THE RULES OF P *)
+         'Q':RUL_SRCH(40,2);      (* PROCESS WITH THE RULES OF Q *)
+         'R':RUL_SRCH(42,1);      (* PROCESS WITH THE RULES OF R *)
+         'S':RUL_SRCH(43,5);      (* PROCESS WITH THE RULES OF S *)
+         'T':RUL_SRCH(48,6);      (* PROCESS WITH THE RULES OF T *)
+         'U':RUL_SRCH(54,2);      (* PROCESS WITH THE RULES OF U *)
+         'V':RUL_SRCH(56,1);      (* PROCESS WITH THE RULES OF V *)
+         'W':RUL_SRCH(57,2);      (* PROCESS WITH THE RULES OF W *)
+         'X':RUL_SRCH(59,1);      (* PROCESS WITH THE RULES OF X *)
+         'Y':RUL_SRCH(60,2);      (* PROCESS WITH THE RULES OF Y *)
+         'Z':RUL_SRCH(62,1)       (* PROCESS WITH THE RULES OF Z *)
+      ELSE
+          RUL_SRCH(63,15)         (* PROCESS AS A DIGIT OR SYMBOL *)
+      END; (* CASE *)
+END; (* PROCEDURE *)
+MODEND.
+

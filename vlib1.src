@@ -1,0 +1,95 @@
+MODULE VLIB1;
+
+VAR
+   ERROR:EXTERNAL BOOLEAN;
+
+{****************************************************************************
+
+ PAUSE - WAIT FOR KEYBOARD INPUT FROM OPERATOR
+
+****************************************************************************}
+
+PROCEDURE PAUSE;
+
+VAR
+  CH:CHAR;
+
+BEGIN (* PROCEDURE *)
+   WRITELN;
+   WRITELN('PRESS ANY KEY TO CONTINUE');
+   WRITELN;
+   CH:=CHR(0);                 (* SET UP FOR LOOP ENTRY *)
+   WHILE CH = CHR(0) DO
+      READ(CH);
+END; (* PROCEDURE *)
+
+{******************************************************************************
+
+ OPENS - OPEN EXISTING SEQUENTIAL FILE AND SET ERROR IF IORESULT STATES SUCH
+
+******************************************************************************}
+
+PROCEDURE OPENS(BUFFER:STRING; VAR INFILE:TEXT);
+
+BEGIN (* PROCEDURE *)
+   ASSIGN(INFILE,BUFFER);                  (* SET UP FILE VARIABLE *)
+   RESET(INFILE);                          (* OPEN FILE *)
+   IF IORESULT = 255 THEN BEGIN            (* IF ERROR *)
+      ERROR:=TRUE;                         (* SET GLOBAL FLAG *)
+      WRITELN('ERROR IN OPENING ',BUFFER);
+      PAUSE                                (* WAIT FOR OPERATOR INPUT *)
+   END (* IF *)
+END; (* PROCEDURE *)
+
+{*****************************************************************************
+
+ CLOSS - CLOSING OPEN FILE SEQUENTIAL FILE AND SET ERROR FLAG IF TRUE
+
+*****************************************************************************}
+
+PROCEDURE CLOSS(BUFFER:STRING; VAR INFILE:TEXT);
+
+VAR
+   RESULT:INTEGER;
+
+BEGIN (* PROCEDURE *)
+   CLOSE(INFILE,RESULT);                  (* CLOSE FILE *)
+   IF RESULT = 255 THEN BEGIN             (* IF ERROR *)
+      ERROR:=TRUE;                        (* SET GLOBAL FLAG *)
+      WRITELN('ERROR IN CLOSING ',BUFFER);
+      PAUSE                               (* WAIT FOR OPERATOR INPUT *)
+   END (* IF *)
+END; (* PROCEDURE *)
+
+{*****************************************************************************
+
+ CLEAR_CRT - CLEAR THE CRT - THIS ROUTINE IS MACHINE DEPENDENT
+
+******************************************************************************}
+
+PROCEDURE CLEAR_CRT;
+
+BEGIN (* PROCEDURE *)
+   WRITELN(CHR(126),CHR(28))               (* LEAD IN CODE FOR HAZELTINE *)
+END; (* PROCEDURE *)
+
+{**************************************************************************
+
+ GETNAM - GET FILE NAME FROM OPERATOR
+          PROCEDURE WILL POLL THE KEYBOARD UNTIL A VALID
+          CHARACTER IS PRESSED
+
+**************************************************************************}
+
+PROCEDURE GETNAM(VAR BUFFER:STRING);
+
+BEGIN (* PROCEDURE *)
+   BUFFER:='';                 (* SET UP LOOP *)
+   WHILE (BUFFER = '') OR (LENGTH(BUFFER) > 11) DO BEGIN
+      WRITELN;
+      WRITE('ENTER FILE NAME.TYP <=11 CHARACTERS ');
+      READLN(BUFFER);          (* GET FILE NAME *)
+   END (* WHILE *)
+END; (* PROCEDURE *)
+MODEND.
+

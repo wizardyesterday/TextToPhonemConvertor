@@ -1,0 +1,266 @@
+MODULE UTIL;
+
+CONST
+   MAXLINE = 80;                 (* MAXIMUM LENGTH OF INPUT BUFFER *)
+   MAXPHO = 1000;                (* SIZE OF PHONEM BUFFER *)
+
+TYPE
+   ENGLISH = ARRAY[1..MAXLINE] OF CHAR;
+   PHONEM = ARRAY[1..MAXPHO] OF BYTE;
+
+VAR
+   E_BUFFER:EXTERNAL ENGLISH;
+   P_BUFFER:EXTERNAL PHONEM;
+   E_LEN,P_INDEX:EXTERNAL INTEGER;
+
+EXTERNAL PROCEDURE OUTB(PAR1,PAR2:BYTE);
+EXTERNAL FUNCTION INPB(PAR1:BYTE):BYTE;
+EXTERNAL FUNCTION BAND(PAR1,PAR2:INTEGER):INTEGER;
+
+{******************************************************************************
+
+ PHO_TO_SY - DUMP PHONEM CODE TO SPEECH SYNTHESIZER
+
+******************************************************************************}
+
+PROCEDURE PHO_TO_SY(PHONEM:BYTE);
+
+CONST
+   V_CNTL = $C1;                    (* SPEECH SYNTHESIZER CONTROL PORT *)
+   V_STAT = $C0;                    (* SPEECH SYNTHESIZER STATUS PORT *)
+   V_DATA = $C0;                    (* SPEECH SYNTHESIZER DATA PORT *)
+   OFF = 0;                         (* STROBE LOW *)
+   STROBE = 1;                      (* STROBE TO SPEECH SYNTHESIZER *)
+   BUSY = 1;                        (* BUSY BIT *)
+
+BEGIN (* PROCEDURE *)
+   OUTB(V_CNTL,OFF);                (* PLACE IN KNOWN STATE *)
+   REPEAT                           (* READ STATUS PORT UNTIIL NOT BUSY *)
+      UNTIL BAND(INPB(V_STAT),BUSY) <> 0;
+   OUTB(V_DATA,PHONEM);             (* SEND PHONEM TO SYNTHESIZER *)
+   OUTB(V_CNTL,STROBE);             (* LATCH DATA *)
+   OUTB(V_CNTL,OFF)                 (* BRING STROBE BACK LOW *)
+END; (* PROCEDURE *)
+
+{****************************************************************************
+
+ DUMP_PH - DUMP PHONEM ARRAY TO SPEECH SYNTHESIZER
+
+*****************************************************************************}
+
+PROCEDURE DUMP_PH;
+
+CONST
+   STOP = $3F;                      (* STOP COMMAND *)
+
+VAR
+   INDEX:INTEGER;
+
+BEGIN (* PROCEDURE *)
+   FOR INDEX:=1 TO P_INDEX-1 DO
+      PHO_TO_SY(P_BUFFER[INDEX]);   (* SEND PHONEM STRING TO SYNTHESIZER *)
+      PHO_TO_SY(STOP)               (* STOP CONVERSION CYCLES *)
+END; (* PROCEDURE *)
+
+{******************************************************************************
+
+ IS_ALPHA - RETURN FLAG DETERMINING IF ARGUMENT IS AN ALPHABETIC CHARACTER
+
+******************************************************************************}
+
+FUNCTION IS_ALPHA(CH:CHAR):BOOLEAN;
+
+BEGIN (* FUNCTION *)
+   IF CH IN ['A'..'Z'] THEN
+      IS_ALPHA:=TRUE              (* RETURN TRUE *)
+   ELSE
+      IS_ALPHA:=FALSE             (* RETURN FALSE *)
+END; (* FUNCTION *)
+
+{*****************************************************************************
+
+ IS_VWL - RETURN FLAG DETERMINING IF ARGUMENT IS A VOWEL
+
+*****************************************************************************}
+
+FUNCTION IS_VWL(CH:CHAR):BOOLEAN;
+
+BEGIN (* FUNCTION *)
+   IF CH IN ['A','E','I','O','U','Y'] THEN
+      IS_VWL:=TRUE               (* RETURN TRUE *)
+   ELSE
+      IS_VWL:=FALSE              (* RETURN FALSE *)
+END; (* FUNCTION *)
+
+{****************************************************************************
+
+ IS_FR_VWL - RETURN FLAG DETERMINING IF ARGUMENT IS A FRONT VOWEL
+
+****************************************************************************}
+
+FUNCTION IS_FR_VWL(CH:CHAR):BOOLEAN;
+
+BEGIN (* FUNCTION *)
+   IF CH IN ['E','I','Y'] THEN
+      IS_FR_VWL:=TRUE            (* RETURN TRUE *)
+   ELSE
+      IS_FR_VWL:=FALSE           (* RETURN FALSE *)
+END; (* FUNCTION *)
+
+{*****************************************************************************
+
+ IS_CST - RETURN FLAG DETERMINING IF ARGUMENT IS A CONSONANT
+
+*****************************************************************************}
+
+FUNCTION IS_CST(CH:CHAR):BOOLEAN;
+
+BEGIN (* FUNCTION *)
+   IF (IS_ALPHA(CH)) AND (NOT IS_VWL(CH)) THEN
+      IS_CST:=TRUE              (* RETURN TRUE *)
+   ELSE
+      IS_CST:=FALSE             (* RETURN FALSE *)
+END; (* FUNCTION *)
+
+{****************************************************************************
+
+ IS_VO_CST - RETURN FLAG DETERMINING IF ARGUMENT IS A VOICED CONSONANT
+
+*****************************************************************************}
+
+FUNCTION IS_VO_CST(CH:CHAR):BOOLEAN;
+
+BEGIN (* FUNCTION *)
+   IF CH IN ['B','D','G','J','L','M','N','R','V','W','Z'] THEN
+      IS_VO_CST:=TRUE          (* RETURN TRUE *)
+   ELSE
+      IS_VO_CST:=FALSE         (* RETURN FALSE *)
+END; (* FUNCTION *)
+
+{*****************************************************************************
+
+ RT_PS_VWL - MOVE INDEX RIGHT PAST VOWELS IN ENGLISH BUFFER
+
+******************************************************************************}
+
+PROCEDURE RT_PS_VWL(VAR R_INDEX:INTEGER; VAR OCCURED:BOOLEAN);
+
+VAR
+   DONE:BOOLEAN;
+
+BEGIN (* PROCEDURE *)
+   OCCURED:=FALSE;                 (* CLEAR INITIALLY *)
+   IF R_INDEX <= E_LEN THEN BEGIN
+      DONE:=FALSE;                 (* CLEAR INITIALLY *)
+      WHILE NOT DONE DO BEGIN
+         IF IS_VWL(E_BUFFER[R_INDEX]) THEN BEGIN
+            OCCURED:=TRUE;         (* SET OCCURANCE FLAG *)
+            R_INDEX:=R_INDEX+1     (* BUMP INDEX *)
+         END ELSE
+            DONE:=TRUE;            (* ELSE BAIL OUT OF SCAN *)
+         IF R_INDEX > E_LEN THEN
+            DONE:=TRUE             (* BAIL OUT IF PAST BUFFER LIMITS *)
+      END (* WHILE *)
+   END (* IF *)
+END; (* PROCEDURE *)
+
+{*****************************************************************************
+
+ RT_PS_CST - MOVE INDEX RIGHT PAST CONSONANTS IN ENGLISH BUFFER
+
+******************************************************************************}
+
+PROCEDURE RT_PS_CST(VAR R_INDEX:INTEGER; VAR OCCURED:BOOLEAN);
+
+VAR
+   DONE:BOOLEAN;
+
+BEGIN (* PROCEDURE *)
+   IF R_INDEX <= E_LEN THEN BEGIN
+      DONE:=FALSE;                 (* CLEAR INITIALLY *)
+      WHILE NOT DONE DO BEGIN
+         IF NOT IS_CST(E_BUFFER[R_INDEX]) THEN
+            DONE:=TRUE             (* BAIL OUT OF SCAN *)
+         ELSE
+            R_INDEX:=R_INDEX+1;    (* BUMP INDEX *)
+         IF R_INDEX > E_LEN THEN
+            DONE:=TRUE             (* BAIL OUT IF PAST BUFFER LIMITS *)
+      END (* WHILE *)
+   END; (* IF *)
+   OCCURED:=TRUE                   (* RETURN VALUE *)
+END; (* PROCEDURE *)
+
+{*****************************************************************************
+
+ LF_PS_VWL - MOVE INDEX OF ENGLISH BUFFER LEFT PAST VOWELS
+
+******************************************************************************}
+
+PROCEDURE LF_PS_VWL(VAR R_INDEX:INTEGER; VAR OCCURED:BOOLEAN);
+
+VAR
+   DONE:BOOLEAN;
+
+BEGIN (* PROCEDURE *)
+   OCCURED:=FALSE;                 (* CLEAR INITIALLY *)
+   IF R_INDEX >= 1 THEN BEGIN
+      DONE:=FALSE;                 (* CLEAR INITIALLY *)
+      WHILE NOT DONE DO BEGIN
+         IF IS_VWL(E_BUFFER[R_INDEX]) THEN BEGIN
+            OCCURED:=TRUE;         (* SET OCCURANCE FLAG *)
+            R_INDEX:=R_INDEX-1     (* DECREMENT INDEX *)
+         END ELSE
+            DONE:=TRUE;            (* BAIL OUT OF SCAN *)
+         IF R_INDEX < 1 THEN
+            DONE:=TRUE             (* BAIL OUT IF PAST LOWER BOUNDS *)
+      END (* WHILE *)
+   END (* IF *)
+END; (* PROCEDURE *)
+
+{*****************************************************************************
+
+ LF_PS_CST - MOVE INDEX OF ENGLISH BUFFER LEFT PAST CONSONANTS
+
+******************************************************************************}
+
+PROCEDURE LF_PS_CST(VAR R_INDEX:INTEGER; VAR OCCURED:BOOLEAN);
+
+VAR
+   DONE:BOOLEAN;
+
+BEGIN (* PROCEDURE *)
+   IF R_INDEX >= 1 THEN BEGIN
+      DONE:=FALSE;                 (* CLEAR INITIALLY *)
+      WHILE NOT DONE DO BEGIN
+         IF NOT IS_CST(E_BUFFER[R_INDEX]) THEN
+            DONE:=TRUE             (* BAIL OUT OF SCAN *)
+         ELSE
+            R_INDEX:=R_INDEX-1;       (* DECREMENT INDEX *)
+         IF R_INDEX < 1 THEN
+            DONE:=TRUE             (* BAIL OUT IF PAST LOWER BOUNDS *)
+      END (* WHILE *)
+   END; (* IF *)
+   OCCURED:=TRUE                   (* RETURN VALUE *)
+END; (* PROCEDURE *)
+
+{******************************************************************************
+
+ U_CASE - CONVERT A LOWER CASE CHARACTER TO UPPER CASE
+
+******************************************************************************}
+
+FUNCTION U_CASE(CH:CHAR):CHAR;
+
+VAR
+  CH_BYT:INTEGER;
+
+BEGIN (* FUNCTION *)
+   IF CH IN ['a'..'z'] THEN BEGIN
+      CH_BYT:=ORD(CH);            (* GET ASCII VALUE *)
+      CH_BYT:=CH_BYT-32;          (* COMPUTE UPPER CASE VALUE *)
+      U_CASE:=CHR(CH_BYT)         (* RETURN VALUE *)
+   END ELSE
+      U_CASE:=CH                  (* RETURN VALUE *)
+END; (* FUNCTION *)
+MODEND.
+

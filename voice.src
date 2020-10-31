@@ -1,0 +1,59 @@
+PROGRAM VOTRAX;
+
+CONST
+   MAXLINE = 80;                   (* MAXIMUM LENGTH OF INPUT BUFFER *)
+   MAXPHO = 1000;                  (* SIZE OF PHONEM BUFFER *)
+   NUM_PHON = 64;                  (* NUMBER OF PHONEMS *)
+   NUM_RULE = 100;                 (* NUMBER OF RULES ALLOWED *)
+   
+TYPE
+   PHO_REF = RECORD
+                ALPHA:STRING[5];   (* ALPHABETIC REPRESENTATION OF PHONEM *)
+                CODE:BYTE          (* PHONEM CODE *)
+             END; (* RECORD *)
+
+   ENGLISH = ARRAY[1..MAXLINE] OF CHAR;
+   PHONEM = ARRAY[1..MAXPHO] OF BYTE;
+   RULES = ARRAY[1..NUM_RULE] OF STRING[30];
+   PHO_LIST = ARRAY[1..NUM_PHON] OF PHO_REF;
+
+VAR
+   E_BUFFER:ENGLISH;
+   P_BUFFER:PHONEM;
+   RUL_TBL:RULES;
+   PHO_TBL:PHO_LIST;
+   E_LEN,E_INDEX,P_INDEX:INTEGER;
+   INBUF:STRING;
+   TERMIN,ERROR:BOOLEAN;
+
+EXTERNAL PROCEDURE CLEAR_CRT;
+EXTERNAL PROCEDURE GETFIL;
+EXTERNAL PROCEDURE GETKEY;
+EXTERNAL PROCEDURE GETPARMS;
+
+{****************************************************************************
+
+ MAIN LINE PORTION
+
+****************************************************************************}
+
+BEGIN (* MAIN PROGRAM *)
+   TERMIN:=FALSE;                     (* CLEAR INITIALLY *)
+   GETPARMS;                          (* LOAD ARRAYS *)
+   IF NOT ERROR THEN
+      REPEAT
+         CLEAR_CRT;                   (* CLEAR THE CRT *)
+         WRITELN('           TEXT TO PHONEM CONVERSION');
+         WRITELN;
+         WRITELN('<0> - GET INPUT FROM TEXT FILE');
+         WRITELN('<1> - GET INPUT FROM KEYBOARD');
+         WRITE('<2> - TERMINATE PROGRAM ');
+         READLN(INBUF);
+         CASE INBUF[1] OF
+            '0':GETFIL;               (* READ TEXT FROM FILE *)
+            '1':GETKEY;               (* READ FROM KEYBOARD *)
+            '2':TERMIN:=TRUE          (* EXIT FROM PROGRAM *)
+         END (* CASE *)
+      UNTIL TERMIN
+END. (* MAIN PROGRAM *)
+

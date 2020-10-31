@@ -1,0 +1,77 @@
+.Z80
+;****************************************************************************
+;
+;	MODULE:		BAND
+;	PURPOSE:	PERFORM BITWISE AND OF TWO INTEGERS
+;
+;	CALLING SEQUENCE:
+;			RESULT:=BAND(BINARG,MASK)
+;				BINARG:INTEGER - NUMBER PASSED TO FUNCTION
+;				MASK:INTEGER - MASK PASSED TO FUNCTION
+;				RESULT:INTEGER - RESULT RETURNED FROM FUNCTION
+;
+;*****************************************************************************
+;
+	PUBLIC	BAND
+;
+BAND:	POP	HL		;SAVE RETURN ADDRESS
+	POP	BC		;GET MASK ARGUMENT
+	POP	DE		;GET BINARY VALUE
+;
+	LD	A,E		;GET LOW BYTE OF BINARG
+	AND	C		;AND WITH LOW BYTE OF MASK
+	LD	E,A		;SAVE LOW BYTE
+;
+	LD	A,D		;GET HIGH BYTE OF BINARG
+	AND	B		;AND WITH HIGH BYTE OF MASK
+	LD	D,A		;SAVE HIGH BYTE
+	PUSH	DE		;RETURN VALUE OF FUNCTION ON STACK
+	PUSH	HL		;RESTORE RETURN ADDRESS
+	RET			;AND RETURN TO CALLER
+;
+;*****************************************************************************
+;
+;	MODULE:		INPB
+;	PURPOSE:	READ A BYTE FROM A PORT
+;
+;	CALLING SEQUENCE:
+;			DATA:=INPB(PORT)
+;				PORT:BYTE - PORT NUMBER PASSED TO FUNCTION
+;				DATA:BYTE - BYTE RETURNED FROM FUNCTION
+;
+;****************************************************************************
+;
+	PUBLIC	INPB
+;
+INPB:	LD	IX,0		;SET UP
+	ADD	IX,SP		;AND COMPUTE STACK ADDRESS
+;
+	LD	C,(IX+2)	;GET PORT NUMBER
+	IN	A,(C)		;READ DATA BYTE
+	LD	(IX+2),A	;AND RETURN VALUE
+	RET			;RETURN TO CALLER
+;
+;*****************************************************************************
+;
+;	MODULE:		OUTB
+;	PURPOSE:	SEND A BYTE TO A PORT
+;
+;	CALLING SEQUENCE:
+;			OUT(PORT,DATA)
+;				PORT:BYTE - PORT NUMBER PASSED TO PROCEDURE
+;				DATA:BYTE - BYTE PASSED TO PROCEDURE
+;
+;****************************************************************************
+;
+	PUBLIC	OUTB
+;
+OUTB:	POP	HL		;SAVE RETURN ADDRESS
+	POP	DE		;GET DATA BYTE
+	POP	BC		;GET PORT NUMBER
+	PUSH	HL		;RESTORE RETURN ADDRESS
+;
+	OUT	(C),E		;WRITE DATA BYTE
+	RET			;AND RETURN TO CALLER
+;
+	END
+
