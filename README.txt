@@ -4,7 +4,7 @@ may have been back in 1984. I had decided to build a synthesizer ('ll scan
 the schematic and upload it when I find it) and write software in
 Pascal/MT+ on a CP/M machine.
 
-There is some 8080 assembly language code that I wrote so that I could output
+There is some Z80 assembly language code that I wrote so that I could output
 data to/input data from the required I/O ports (the parallel port) to drive
 the synthesizer with a byte stream of encoded phonem values to make it talk.
 
