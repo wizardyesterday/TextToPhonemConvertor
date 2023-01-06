@@ -22,3 +22,10 @@ If anything, people may chuckle with respect to my coding style back in
 
 Chris G. 10/31/2020
 
+-------------------------------------------------
+01/05/2023
+-------------------------------------------------
+I have added the original NRL paper for which this work ws derived.  It
+resides in the Papers directory.
+
+
