@@ -29,3 +29,17 @@ I have added the original NRL paper for which this work ws derived.  It
 resides in the Papers directory.
 
 
+-------------------------------------------------
+01/07/2023
+-------------------------------------------------
+I have created a Votrax directory that containes the above mentioned
+paper, the Votrax SC-01 datasheet, and photos of my home-built speech box.
+I have to figure out where I put the design notes (schematic and stuff).
+It's somewhere in my lab, I hope. Once I find the design notes, I'll scan
+them and post them in a Design directory.
+
+I think I want to port this Pascal/MT+ code into C or C++ code. I'll have
+to create a Votrax SC-01 software subsystem that accepts a phonem and outputs
+a PCM sample stream representation of the phone to stdout. I can then pipe
+the output to aplay so that I can hear the synthesizer output.
+
