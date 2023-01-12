@@ -43,3 +43,15 @@ to create a Votrax SC-01 software subsystem that accepts a phonem and outputs
 a PCM sample stream representation of the phone to stdout. I can then pipe
 the output to aplay so that I can hear the synthesizer output.
 
+-------------------------------------------------
+01/11/2023
+-------------------------------------------------
+I found the Byte Magazine articles!  The system is called the Microvox Text
+to Speech Synthesizer.  It has a 6502 processor for which its software
+drove the SC-01 chip.  The Byte issues are September 1982 (hardware) and
+October 1982 (software).  My system did not have a processor in it.  It was
+a peripheral box for which the host computer sent information to the system
+via a parallel port interface.  The peripheral board in my computer was a
+3P+S board.
+
+
