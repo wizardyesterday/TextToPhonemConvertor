@@ -54,4 +54,12 @@ a peripheral box for which the host computer sent information to the system
 via a parallel port interface.  The peripheral board in my computer was a
 3P+S board.
 
+-------------------------------------------------
+01/12/2023
+-------------------------------------------------
+The design is now captured.  The pdf file looks sucky, but the jpegs are not
+too bad. I especially wanted to capture the signal definitions on the DB-2b
+connector.  After perusing the schematic, it is clear that 10 bits of I/O
+are needed: 6 bits for the phonem code, 2 bits for the inflection code,
+1 bit for the strobe, and 1 bit for reading the status of the SC-01 chip.
 
