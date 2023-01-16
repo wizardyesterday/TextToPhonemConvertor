@@ -70,44 +70,77 @@ void Parser::PH_TO_COD(void)
 
 } // PH_TO_COD
 
+//**************************************************************************
+
+// BLD_LIT_P - BUILD LITERAL PHONEM STRING IN ARRAY OF PHONEM STRING 
+
+//*************************************************************************
+
+void Parser::BLD_LIT_P(int RUL_INDX)
+{
+   int INDEX;
+   int RES_INDX;
+   int R_INDEX;
+   bool DONE;
+
+   // Point to beginning of result buffer.
+   RES_INDX = 1;
+
+   // Point past '=' sign.
+   R_INDEX = RUL_INDX + 1;
+
+   if (R_BUFFER[R_INDEX] != ';')
+   {
+      for (INDEX = 1; INDEX <= NUM_PH_CH; INDEX++)
+      {
+         // Clear phonem string array.
+         PH_STR[INDEX] = "";
+      } // for
+
+      do
+      {
+         // Set up for loop entry.
+         DONE = false;
+
+         while (!DONE)
+         {
+            if (R_BUFFER[R_INDEX] != ';')
+            {
+               PH_STR[RES_INDX] = PH_STR[RES_INDX] + R_BUFFER[R_INDEX];
+
+               // Bump rule index.
+               R_INDEX = R_INDEX + 1;
+
+               if (R_BUFFER[R_INDEX] = ',')
+               {
+                  // bump index past comma.
+                  R_INDEX = R_INDEX + 1;
+
+                  // Exit comma scan.
+                  DONE = true;
+               } // if
+            } // if
+            else
+            {
+               // Exit rule scan.
+               DONE = true;
+            } // else
+         } // while
+
+         // Bump result index.
+         RES_INDX = RES_INDX + 1;
+
+      } while (R_BUFFER[R_INDEX] != ';');
+   } // if
+
+   // Store terminator.
+   PH_STR[RES_INDX] = ';';
+
+  return;
+
+} // BLD_LIT_P
+
 #if 0
-
-{***************************************************************************
-
- BLD_LIT_P - BUILD LITERAL PHONEM STRING IN ARRAY OF PHONEM STRING 
-
-***************************************************************************}
-
-PROCEDURE BLD_LIT_P(RUL_INDX:INTEGER);
-
-VAR
-   INDEX,RES_INDX,R_INDEX:INTEGER;
-   DONE:BOOLEAN;
-
-BEGIN (* PROCEDURE *)
-   RES_INDX:=1;                    (* POINT TO BEGINING OF RESULT BUFFER *)
-   R_INDEX:=RUL_INDX+1;            (* POINT PAST = SIGN *)
-   IF R_BUFFER[R_INDEX] <> ';' THEN BEGIN
-      FOR INDEX:=1 TO NUM_PH_CH DO
-         PH_STR[INDEX]:='';        (* CLEAR PHONEM STRING ARRAY *)
-      REPEAT
-         DONE:=FALSE;              (* CLEAR FLAG *)
-         WHILE NOT DONE DO BEGIN
-            IF R_BUFFER[R_INDEX] <> ';' THEN BEGIN
-               PH_STR[RES_INDX]:=CONCAT(PH_STR[RES_INDX],R_BUFFER[R_INDEX]);
-               R_INDEX:=R_INDEX+1; (* BUMP RULE INDEX *)
-               IF R_BUFFER[R_INDEX] = ',' THEN BEGIN
-                  R_INDEX:=R_INDEX+1; (* BUMP INDEX PAST COMMA *)
-                  DONE:=TRUE       (* EXIT COMMA SCAN *)
-               END (* IF *)
-            END ELSE
-               DONE:=TRUE;         (* EXIT RULE SCAN *)
-         END; (* WHILE *)
-         RES_INDX:=RES_INDX+1      (* BUMP RESULT INDEX *)
-      UNTIL R_BUFFER[R_INDEX] = ';'
-   END; (* IF *)
-   PH_STR[RES_INDX]:=';'           (* STORE TERMINATOR *)
-END; (* PROCEDURE *)
 
 {****************************************************************************
 

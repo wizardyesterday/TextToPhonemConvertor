@@ -17,6 +17,7 @@
 #define MAXPHO (1000)   // Size of phonem buffer.
 #define NUM_PHON (64)   // Number of phonems
 #define NUM_RULE (100)  // Number of rules allowed.
+#define NUM_PH_CH (30)  // Maximum number of phonem characters.
 
 //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
