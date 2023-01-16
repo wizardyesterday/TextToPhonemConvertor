@@ -69,7 +69,7 @@ class Parser
 
   std::string R_BUFFER;
   std::string REF_STR;
-  std::string PH_STR;
+  std::string PH_STR[31];
 
 
   int E_LEN;

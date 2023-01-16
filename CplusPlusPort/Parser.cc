@@ -45,25 +45,32 @@ void Parser::STR_T_COD(std::string PH_STR)
 
 } // STR_T_COD
 
+//****************************************************************************
+
+// PH_TO_COD - CONVERT ARRAY OF PHONEM STRINGS INTO PHONEM CODES
+//****************************************************************************
+
+void Parser::PH_TO_COD(void)
+{
+   int INDEX;
+
+   // Point to beginning of array.
+   INDEX = 1;
+
+   while (PH_STR[INDEX] != ";")
+   {
+      // Convert phonems to codes.
+      STR_T_COD(PH_STR[INDEX]);
+
+      // Reference next entry.
+      INDEX = INDEX+1;
+   } // while
+
+  return;
+
+} // PH_TO_COD
+
 #if 0
-{*****************************************************************************
-
- PH_TO_COD - CONVERT ARRAY OF PHONEM STRINGS INTO PHONEM CODES
-
-*****************************************************************************}
-
-PROCEDURE PH_TO_COD;
-
-VAR
-   INDEX:INTEGER;
-
-BEGIN (* PROCEDURE *)
-   INDEX:=1;                       (* POINT TO BEGINING OF ARRAY *)
-   WHILE PH_STR[INDEX] <> ';' DO BEGIN
-      STR_T_COD(PH_STR[INDEX]);    (* CONVERT PHONEMS TO CODES *)
-      INDEX:=INDEX+1               (* BUMP STRING INDEX *)
-   END (* WHILE *)
-END; (* PROCEDURE *)
 
 {***************************************************************************
 
