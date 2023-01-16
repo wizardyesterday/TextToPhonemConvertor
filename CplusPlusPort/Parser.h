@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdint.h>
+#include <string>
 
 //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 // Buffer size defines.
@@ -21,8 +22,8 @@
 
 struct PhonemToCodeEntry
 {
-  char *phonemString;
-  uint8_t phonemByte;
+  std::string ALPHA;
+  uint8_t CODE;
 };
 
 class Parser
@@ -32,10 +33,10 @@ class Parser
   Parser(void);
   ~Parser(void);
 
-  void STR_T_COD(char *PH_STR);
+  void STR_T_COD(std::string PH_STR);
   void PH_TO_COD(void);
-  void BLD_LIT_P(int RUL_INDX)
-  void SC_RT_CTX(int RT_INDX, VAR int RUL_INDX, bool *FOUND);
+  void BLD_LIT_P(int RUL_INDX);
+  void SC_RT_CTX(int RT_INDX, int *UL_INDX, bool *FOUND);
   void SC_LF_CTX(int LEF_INDX, bool *FOUND);
   bool CMP_REF_S;
   void BLD_REF_S(int LEF_INDX, int *RT_INDX);
@@ -63,12 +64,12 @@ class Parser
   //*****************************************
   char E_BUFFER[MAXLINE+1];
   char P_BUFFER[MAXPHO+1];
-  char RUL_TBL[NUM_RULE+1][30];
+  std::string RUL_TBL[NUM_RULE+1];
   PhonemToCodeEntry PHO_TBL[NUM_PHON+1];
 
-  char R_BUFFER[31];
-  char REF_STR[31];
-  char PH_STR[6];
+  std::string R_BUFFER;
+  std::string REF_STR;
+  std::string PH_STR;
 
 
   int E_LEN;
