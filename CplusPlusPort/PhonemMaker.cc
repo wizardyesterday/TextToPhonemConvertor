@@ -3,6 +3,212 @@
 //**********************************************************************
 
 #include "PhonemMaker.h"
+
+
+/*****************************************************************************
+
+ ENG_TO_PH - CONVERT ENGLISH TEXT TO PHONEM STRING
+ This is really the entry point into the phonem processing engine.
+
+*****************************************************************************/
+
+void PhonemMaker::ENG_TO_PH(std::string INBUF)
+{
+   int INDEX;
+
+   // Set to the beginning of the buffers.
+   P_INDEX = 1;
+   E_INDEX = 1;
+
+   // Compute message length.  Yes, this is redundant.
+   E_LEN = INBUF.length();
+
+   for (INDEX = 1; INDEX <= E_LEN; INDEX++)
+   {
+      // Convert to upper case.
+      E_BUFFER[INDEX] = toupper(INBUF[INDEX]);
+   } // for
+
+   while (E_INDEX <= E_LEN)
+   {
+      switch (E_BUFFER[E_INDEX])
+      {
+         case 'A':
+         {
+            // Process with the rules of A.
+            RUL_SRCH(1,5);
+            break;
+         } // case
+
+         case 'B':
+          {
+            // Process with the rules of B.
+            RUL_SRCH(6,1);
+            break;
+         } // case
+
+         case 'C':
+         {
+            // Process with the rules of C.
+            RUL_SRCH(7,3);
+            break;
+         } // case
+
+         case 'D':
+         {
+            // Process with the rules of D.
+            RUL_SRCH(10,1);
+            break;
+         } // case
+
+         case 'E':
+         {
+            // Process with the rules of E.
+            RUL_SRCH(11,8);
+            break;
+         } // case
+
+         case 'F':
+         {
+            // Process with the rules of F.
+            RUL_SRCH(19,1);
+            break;
+         } // case
+
+         case 'G':
+         {
+            // Process with the rules of G.
+            RUL_SRCH(20,1);
+            break;
+         } // case
+
+         case 'H':
+         {
+            // Process with the rules of H.
+            RUL_SRCH(21,2);
+            break;
+         } // case
+
+         case 'I':
+         {
+            // Process with the rules of I.
+            RUL_SRCH(23,5);
+            break;
+         } // case
+
+         case 'J':
+         {
+            // Process with the rules of J.
+            RUL_SRCH(28,1);
+         } // case
+
+         case 'K':
+         {
+            // Process with the rules of K.
+            RUL_SRCH(29,1);
+         } // case
+
+         case 'L':
+         {
+            // Process with the rules of L.
+            RUL_SRCH(30,2);
+         } // case
+
+         case 'M':
+         {
+            // Process with the rules of M.
+            RUL_SRCH(32,1);
+         } // case
+
+         case 'N':
+         {
+            // Process with the rules of N.
+            RUL_SRCH(33,2);
+         } // case
+
+         case 'O':
+         {
+            // Process with the rules of O.
+            RUL_SRCH(35,4);
+         } // case
+
+         case 'P':
+         {
+            // Process with the rules of P.
+            RUL_SRCH(39,1);
+         } // case
+
+         case 'Q':
+         {
+            // Process with the rules of Q.
+            RUL_SRCH(40,2);
+         } // case
+
+         case 'R':
+         {
+            // Process with the rules of R.
+            RUL_SRCH(42,1);
+         } // case
+
+         case 'S':
+         {
+            // Process with the rules of S.
+            RUL_SRCH(43,5);
+         } // case
+
+         case 'T':
+         {
+            // Process with the rules of T.
+            RUL_SRCH(48,6);
+         } // case
+
+         case 'U':
+         {
+            // Process with the rules of U.
+            RUL_SRCH(54,2);
+         } // case
+
+         case 'V':
+         {
+            // Process with the rules of V.
+            RUL_SRCH(56,1);
+         } // case
+
+         case 'W':
+         {
+            // Process with the rules of W.
+            RUL_SRCH(57,2);
+         } // case
+
+         case 'X':
+         {
+            // Process with the rules of X.
+            RUL_SRCH(59,1);
+         } // case
+
+         case 'Y':
+         {
+            // Process with the rules of Y.
+            RUL_SRCH(60,2);
+         } // case
+
+         case 'Z':
+         {
+            // Process with the rules of Z.
+            RUL_SRCH(62,1);
+         } // case
+
+         default:
+         {
+            // Process as a digit or symbol.
+            RUL_SRCH(63,15);
+         } // case
+      } // switch
+   } // while
+
+   return;
+
+} // ENG_TO_PH
    
 //*************************************************************************
 

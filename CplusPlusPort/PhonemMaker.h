@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdint.h>
+#include <ctype.h>
 #include <string>
 
 //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -34,6 +35,7 @@ class PhonemMaker
   PhonemMaker(void);
   ~PhonemMaker(void);
 
+  void ENG_TO_PH(std::string INBUF);
   void STR_T_COD(std::string PH_STR);
   void PH_TO_COD(void);
   void BLD_LIT_P(int RUL_INDX);
