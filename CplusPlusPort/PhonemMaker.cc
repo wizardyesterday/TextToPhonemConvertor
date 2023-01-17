@@ -410,33 +410,50 @@ void PhonemMaker::RT_PS_VWL(int& R_INDEX, bool& OCCURED)
 
 } // RT_PS_VWL
 
-#if 0
-
-{*****************************************************************************
+/*****************************************************************************
 
  RT_PS_CST - MOVE INDEX RIGHT PAST CONSONANTS IN ENGLISH BUFFER
 
-******************************************************************************}
+******************************************************************************/
 
-PROCEDURE RT_PS_CST(VAR R_INDEX:INTEGER; VAR OCCURED:BOOLEAN);
+void PhonemMaker::RT_PS_CST(int& R_INDEX, bool& OCCURED)
+{
+   bool DONE;
 
-VAR
-   DONE:BOOLEAN;
+   if (R_INDEX <= E_LEN)
+   {
+      // Set up for loop entry.
+      DONE = false;
 
-BEGIN (* PROCEDURE *)
-   IF R_INDEX <= E_LEN THEN BEGIN
-      DONE:=FALSE;                 (* CLEAR INITIALLY *)
-      WHILE NOT DONE DO BEGIN
-         IF NOT IS_CST(E_BUFFER[R_INDEX]) THEN
-            DONE:=TRUE             (* BAIL OUT OF SCAN *)
-         ELSE
-            R_INDEX:=R_INDEX+1;    (* BUMP INDEX *)
-         IF R_INDEX > E_LEN THEN
-            DONE:=TRUE             (* BAIL OUT IF PAST BUFFER LIMITS *)
-      END (* WHILE *)
-   END; (* IF *)
-   OCCURED:=TRUE                   (* RETURN VALUE *)
-END; (* PROCEDURE *)
+      while (!DONE)
+      {
+         if (!IS_CST(E_BUFFER[R_INDEX]))
+         {
+            // Bail out of scan.
+            DONE = true;
+         } // if
+         else
+         {
+            // Reference next character.
+            R_INDEX = R_INDEX + 1;
+         } // else
+
+         if (R_INDEX > E_LEN)
+         {
+            // Bail out if past buffer limits.
+            DONE = true;
+         } // if
+      } // while
+   } // if
+
+   // Indicate outcome of occurrance.
+   OCCURED = true;
+
+   return;
+
+} // RT_PS_CST
+
+#if 0
 
 {*****************************************************************************
 

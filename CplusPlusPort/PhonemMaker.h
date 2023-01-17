@@ -61,7 +61,7 @@ class PhonemMaker
   bool IS_VO_CST(char CH);
   void RT_PS_VWL(int& R_INDEX, bool& OCCURED);
   void LF_PS_VWL(int& R_INDEX, bool& OCCURED);
-  bool RT_PS_CST(int& R_INDEX, bool& OCCURED);
+  void RT_PS_CST(int& R_INDEX, bool& OCCURED);
   void LF_PS_CST(int& R_INDEX, bool& OCCURED);
 
   //*****************************************
