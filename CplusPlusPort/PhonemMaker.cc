@@ -217,33 +217,56 @@ void PhonemMaker::ENG_TO_PH(std::string& INBUF)
 
 ******************************************************************************/
 
-bool PhonemMaker::IS_ALPHA(char PAR1)
+bool PhonemMaker::IS_ALPHA(char CH)
 {
    bool result;
 
    // Leverage the standard library function.
-   result = isalpha((int)PAR1);
+   result = isalpha((int)CH);
 
    return (result);
 
 } // IS_ALPHA
 
-#if 0
 
-{*****************************************************************************
+/*****************************************************************************
 
  IS_VWL - RETURN FLAG DETERMINING IF ARGUMENT IS A VOWEL
 
-*****************************************************************************}
+*****************************************************************************/
 
-FUNCTION IS_VWL(CH:CHAR):BOOLEAN;
+bool PhonemMaker::IS_VWL(char CH)
+{
+   bool result;
 
-BEGIN (* FUNCTION *)
-   IF CH IN ['A','E','I','O','U','Y'] THEN
-      IS_VWL:=TRUE               (* RETURN TRUE *)
-   ELSE
-      IS_VWL:=FALSE              (* RETURN FALSE *)
-END; (* FUNCTION *)
+   switch(CH)
+   {
+      case 'A':
+      case 'E':
+      case 'I':
+      case 'O':
+      case 'U':
+      case 'Y':
+      {
+         // The character is a vowel.
+         result = true;
+         break;
+      } // case
+
+      default:
+      {
+         // The character is not a vowel.
+         result = false;;
+         break;
+      } // case
+   } // switch
+
+
+   return (result);
+
+} // IS_VWL
+
+#if 0
 
 {****************************************************************************
 

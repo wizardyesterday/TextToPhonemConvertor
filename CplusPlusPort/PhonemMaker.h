@@ -54,15 +54,15 @@ class PhonemMaker
   //*****************************************
   // Utility functions.
   //*****************************************
-  bool IS_ALPHA(char PAR1);
-  bool IS_VWL(char PAR1);
-  bool IS_FR_VWL(char PAR1);
-  bool IS_CST(char PAR1);
-  bool IS_VO_CST(char PAR1);
-  void RT_PS_VWL(int& PAR1, bool& PAR2);
-  void LF_PS_VWL(int& PAR1, bool& PAR2);
-  bool RT_PS_CST(int& PAR1, bool& PAR2);
-  void LF_PS_CST(int& PAR1, bool& PAR2);
+  bool IS_ALPHA(char CH);
+  bool IS_VWL(char CH);
+  bool IS_FR_VWL(char CH);
+  bool IS_CST(char CH);
+  bool IS_VO_CST(char CH);
+  void RT_PS_VWL(int& R_INDEX, bool& OCCURED);
+  void LF_PS_VWL(int& R_INDEX, bool& OCCURED);
+  bool RT_PS_CST(int& R_INDEX, bool& OCCURED);
+  void LF_PS_CST(int& R_INDEX, bool& OCCURED);
 
   //*****************************************
   // Attributes.
