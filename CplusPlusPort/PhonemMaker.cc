@@ -293,7 +293,7 @@ void PhonemMaker::SC_LF_CTX(int LEF_INDX, bool& FOUND)
 
    if (E_INDEX > 1)
    {
-      // Point to the left of left parent.
+      // Point to the left of parent.
       RUL_INDX = LEF_INDX - 1;
 
       // Set up running index in English buffer.
@@ -450,25 +450,36 @@ bool PhonemMaker::CMP_REF_S(void)
 
 } // CMP_REF_S
 
+//****************************************************************************
+
+// BLD_REF_S - BUILD REFERENCE STRING FROM RULE BUFFER
+//             AND RETURN RIGHT PARENT INDEX 
+
+//****************************************************************************
+
+void PhonemMaker::BLD_REF_S(int LEF_INDX, int& RT_INDX)
+{
+
+   // Clear initially.
+   REF_STR = "";
+
+   // Bump past left parent.
+   RT_INDX = LEF_INDX + 1;
+
+   while (R_BUFFER[RT_INDX] != ')')
+   {
+      // Build string.
+      REF_STR = REF_STR + R_BUFFER[RT_INDX];
+
+      // Bump right parent index.
+      RT_INDX = RT_INDX + 1;
+   } // while
+
+   return;
+
+} // BLD_REF_S
+
 #if 0
-
-{*****************************************************************************
-
- BLD_REF_S - BUILD REFERENCE STRING FROM RULE BUFFER
-             AND RETURN RIGHT PARENT INDEX 
-
-*****************************************************************************}
-
-PROCEDURE BLD_REF_S(LEF_INDX:INTEGER; VAR RT_INDX:INTEGER);
-
-BEGIN (* PROCEDURE *)
-   REF_STR:='';                (* CLEAR INITIALLY *)
-   RT_INDX:=LEF_INDX+1;        (* BUMP PAST LEFT PARENT *)
-   WHILE R_BUFFER[RT_INDX] <> ')' DO BEGIN
-      REF_STR:=CONCAT(REF_STR,R_BUFFER[RT_INDX]); (* BUILD STRING *)
-      RT_INDX:=RT_INDX+1       (* BUMP RIGHT PARENT INDEX *)
-   END (* WHILE *)
-END; (* PROCEDURE *)
 
 {****************************************************************************
 
