@@ -453,34 +453,54 @@ void PhonemMaker::RT_PS_CST(int& R_INDEX, bool& OCCURED)
 
 } // RT_PS_CST
 
-#if 0
 
-{*****************************************************************************
+/*****************************************************************************
 
  LF_PS_VWL - MOVE INDEX OF ENGLISH BUFFER LEFT PAST VOWELS
 
-******************************************************************************}
+******************************************************************************/
 
-PROCEDURE LF_PS_VWL(VAR R_INDEX:INTEGER; VAR OCCURED:BOOLEAN);
+void PhonemMaker::LF_PS_VWL(int& R_INDEX, bool& OCCURED)
+{
+   bool DONE;
 
-VAR
-   DONE:BOOLEAN;
+   // Clear initially.
+   OCCURED = false;
 
-BEGIN (* PROCEDURE *)
-   OCCURED:=FALSE;                 (* CLEAR INITIALLY *)
-   IF R_INDEX >= 1 THEN BEGIN
-      DONE:=FALSE;                 (* CLEAR INITIALLY *)
-      WHILE NOT DONE DO BEGIN
-         IF IS_VWL(E_BUFFER[R_INDEX]) THEN BEGIN
-            OCCURED:=TRUE;         (* SET OCCURANCE FLAG *)
-            R_INDEX:=R_INDEX-1     (* DECREMENT INDEX *)
-         END ELSE
-            DONE:=TRUE;            (* BAIL OUT OF SCAN *)
-         IF R_INDEX < 1 THEN
-            DONE:=TRUE             (* BAIL OUT IF PAST LOWER BOUNDS *)
-      END (* WHILE *)
-   END (* IF *)
-END; (* PROCEDURE *)
+   if (R_INDEX >= 1)
+   {
+      // Set up for loop entry.
+      DONE = false;
+
+      while (!DONE)
+      {
+         if (IS_VWL(E_BUFFER[R_INDEX]))
+         {
+            // Indicate occurance.
+            OCCURED = true;
+
+            // Reference character to the left.
+            R_INDEX = R_INDEX - 1;
+         } // if
+         else
+         {
+            // Bail out of scan.
+            DONE = true;
+         } // else
+
+         if (R_INDEX < 1)
+         {
+            // Bail out if past lower bounds.
+            DONE = true;
+         } // if
+      } // while
+   } // if
+
+   return;
+
+} // LF_PS_VWL
+
+#if 0
 
 {*****************************************************************************
 
