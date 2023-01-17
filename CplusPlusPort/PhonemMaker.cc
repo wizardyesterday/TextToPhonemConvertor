@@ -565,9 +565,8 @@ bool PhonemMaker::SCAN(void)
 
 } // SCAN
 
-#if 0
 
-{*****************************************************************************
+/*****************************************************************************
 
  RUL_SRCH - SCAN RULES OF A LETTER OR NUMBER AND GENERATE PHONEMS
 
@@ -639,27 +638,51 @@ MEANING OF RULE SYMBOLS
  AFTER A MATCH IS FOUND THE INDEX INTO THE ENGLISH BUFFER IS INCREMENTED
  BY THE NUMBER OF CHARACTERS INSIDE OF THE PARENTHESIS OF THE RULE.
 
-*****************************************************************************}
+*****************************************************************************/
 
-PROCEDURE RUL_SRCH(BLK_OFF,BLK_SIZ:INTEGER);
+void PhonemMaker::RUL_SRCH(int BLK_OFF, int BLK_SIZ)
+{
+   int U_BOUNDS;
+   int BLK_INDX;
+   bool DONE;
+   bool FOUND;
 
-VAR
-   U_BOUNDS,BLK_INDX:INTEGER;
-   DONE,FOUND:BOOLEAN;
+   // Set upper bounds.
+   U_BOUNDS = BLK_OFF + BLK_SIZ-1;
 
-BEGIN (* PROCEDURE *)
-   U_BOUNDS:=BLK_OFF+BLK_SIZ-1;    (* SET UPPER BOUNDS *)
-   BLK_INDX:=BLK_OFF;              (* SET LOWER BOUNDS *)
-   DONE:=FALSE;                    (* CLEAR INITIALLY *)
-   WHILE NOT DONE DO BEGIN
-      R_BUFFER:=RUL_TBL[BLK_INDX]; (* GET CURRENT RULE *)
-      FOUND:=SCAN;                 (* SCAN USING CURRENT RULE *)
-      BLK_INDX:=BLK_INDX+1;        (* BUMP TO NEXT RULE *)
-      IF (BLK_INDX > U_BOUNDS) OR (FOUND) THEN
-         DONE:=TRUE                (* EXIT SCAN *)
-   END; (* WHILE *)
-   IF NOT FOUND THEN
-      E_INDEX:=E_INDEX+1           (* BUMP INDEX *)
-END; (* PROCEDURE *)
+   // Set lower bounds.
+   BLK_INDX = BLK_OFF;
 
-#endif
+   // Set up for loop entry.
+   DONE = false;
+
+   while (!DONE)
+   {
+      // Get current rule.
+      R_BUFFER = RUL_TBL[BLK_INDX];
+
+      // Scan using current rule.
+      FOUND = SCAN();
+
+      // bump to next rule.
+      BLK_INDX = BLK_INDX + 1;
+
+      if ((BLK_INDX > U_BOUNDS) || FOUND)
+      {
+         // Exit scan.
+         DONE = true;
+      } // if
+   } // while
+
+   if (!FOUND)
+   {
+      // Reference the next English item.
+      E_INDEX = E_INDEX + 1;
+   } // if
+
+   return;
+
+} // RUL_SRCH
+
+
+
