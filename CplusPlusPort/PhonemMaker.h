@@ -35,9 +35,7 @@ class PhonemMaker
   PhonemMaker(void);
   ~PhonemMaker(void);
 
-  void ENG_TO_PH(std::string INBUF);
-  void STR_T_COD(std::string PH_STR);
-  void PH_TO_COD(void);
+  void ENG_TO_PH(std::string& INBUF);
   void BLD_LIT_P(int RUL_INDX);
   void SC_RT_CTX(int RT_INDX, int& RUL_INDX, bool& FOUND);
   void SC_LF_CTX(int LEF_INDX, bool& FOUND);
@@ -46,6 +44,10 @@ class PhonemMaker
   void FI_LF_PAR(int& LEF_INDX);
   bool SCAN(void);
   void RUL_SRCH(int BLK_OFF, int BLK_SIZ);
+
+  // These methods will be moved to the SpeechSynthesizer class.
+  void STR_T_COD(std::string PH_STR);
+  void PH_TO_COD(void);
 
   private:
 

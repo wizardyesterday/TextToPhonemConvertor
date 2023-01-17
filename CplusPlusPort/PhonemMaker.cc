@@ -12,7 +12,7 @@
 
 *****************************************************************************/
 
-void PhonemMaker::ENG_TO_PH(std::string INBUF)
+void PhonemMaker::ENG_TO_PH(std::string& INBUF)
 {
    int INDEX;
 
@@ -209,72 +209,194 @@ void PhonemMaker::ENG_TO_PH(std::string INBUF)
    return;
 
 } // ENG_TO_PH
+
    
-//*************************************************************************
+/******************************************************************************
 
-// STR_T_COD - CONVERT LITERAL PHONEM STRING TO CODE
+ IS_ALPHA - RETURN FLAG DETERMINING IF ARGUMENT IS AN ALPHABETIC CHARACTER
 
-//*************************************************************************
+******************************************************************************/
 
-void PhonemMaker::STR_T_COD(std::string PH_STR)
+bool PhonemMaker::IS_ALPHA(char PAR1)
 {
-   int INDEX;
-   bool MATCH;
+   bool result;
 
-   // Point to begining of phonem table.
-   INDEX = 1;
+   // Leverage the standard library function.
+   result = isalpha((int)PAR1);
 
-   // Clear initially.
-   MATCH = false;
+   return (result);
 
-   while (!MATCH)
-   {
-      if (PH_STR == PHO_TBL[INDEX].ALPHA)
-      {
-         // Store phonem code.
-         P_BUFFER[P_INDEX] = PHO_TBL[INDEX].CODE;
+} // IS_ALPHA
 
-         // Exit loop.
-         MATCH = true;
-      } // if
-      else
-      {
-         // Reference the next item.
-         INDEX = INDEX + 1;
-      } // else
+#if 0
 
-      // Reference the next phonem in the buffer.
-      P_INDEX = P_INDEX + 1;
-   } // while
+{*****************************************************************************
 
-  return;
+ IS_VWL - RETURN FLAG DETERMINING IF ARGUMENT IS A VOWEL
 
-} // STR_T_COD
+*****************************************************************************}
 
-//****************************************************************************
+FUNCTION IS_VWL(CH:CHAR):BOOLEAN;
 
-// PH_TO_COD - CONVERT ARRAY OF PHONEM STRINGS INTO PHONEM CODES
-//****************************************************************************
+BEGIN (* FUNCTION *)
+   IF CH IN ['A','E','I','O','U','Y'] THEN
+      IS_VWL:=TRUE               (* RETURN TRUE *)
+   ELSE
+      IS_VWL:=FALSE              (* RETURN FALSE *)
+END; (* FUNCTION *)
 
-void PhonemMaker::PH_TO_COD(void)
-{
-   int INDEX;
+{****************************************************************************
 
-   // Point to beginning of array.
-   INDEX = 1;
+ IS_FR_VWL - RETURN FLAG DETERMINING IF ARGUMENT IS A FRONT VOWEL
 
-   while (PH_STR[INDEX] != ";")
-   {
-      // Convert phonems to codes.
-      STR_T_COD(PH_STR[INDEX]);
+****************************************************************************}
 
-      // Reference next entry.
-      INDEX = INDEX + 1;
-   } // while
+FUNCTION IS_FR_VWL(CH:CHAR):BOOLEAN;
 
-  return;
+BEGIN (* FUNCTION *)
+   IF CH IN ['E','I','Y'] THEN
+      IS_FR_VWL:=TRUE            (* RETURN TRUE *)
+   ELSE
+      IS_FR_VWL:=FALSE           (* RETURN FALSE *)
+END; (* FUNCTION *)
 
-} // PH_TO_COD
+{*****************************************************************************
+
+ IS_CST - RETURN FLAG DETERMINING IF ARGUMENT IS A CONSONANT
+
+*****************************************************************************}
+
+FUNCTION IS_CST(CH:CHAR):BOOLEAN;
+
+BEGIN (* FUNCTION *)
+   IF (IS_ALPHA(CH)) AND (NOT IS_VWL(CH)) THEN
+      IS_CST:=TRUE              (* RETURN TRUE *)
+   ELSE
+      IS_CST:=FALSE             (* RETURN FALSE *)
+END; (* FUNCTION *)
+
+{****************************************************************************
+
+ IS_VO_CST - RETURN FLAG DETERMINING IF ARGUMENT IS A VOICED CONSONANT
+
+*****************************************************************************}
+
+FUNCTION IS_VO_CST(CH:CHAR):BOOLEAN;
+
+BEGIN (* FUNCTION *)
+   IF CH IN ['B','D','G','J','L','M','N','R','V','W','Z'] THEN
+      IS_VO_CST:=TRUE          (* RETURN TRUE *)
+   ELSE
+      IS_VO_CST:=FALSE         (* RETURN FALSE *)
+END; (* FUNCTION *)
+
+{*****************************************************************************
+
+ RT_PS_VWL - MOVE INDEX RIGHT PAST VOWELS IN ENGLISH BUFFER
+
+******************************************************************************}
+
+PROCEDURE RT_PS_VWL(VAR R_INDEX:INTEGER; VAR OCCURED:BOOLEAN);
+
+VAR
+   DONE:BOOLEAN;
+
+BEGIN (* PROCEDURE *)
+   OCCURED:=FALSE;                 (* CLEAR INITIALLY *)
+   IF R_INDEX <= E_LEN THEN BEGIN
+      DONE:=FALSE;                 (* CLEAR INITIALLY *)
+      WHILE NOT DONE DO BEGIN
+         IF IS_VWL(E_BUFFER[R_INDEX]) THEN BEGIN
+            OCCURED:=TRUE;         (* SET OCCURANCE FLAG *)
+            R_INDEX:=R_INDEX+1     (* BUMP INDEX *)
+         END ELSE
+            DONE:=TRUE;            (* ELSE BAIL OUT OF SCAN *)
+         IF R_INDEX > E_LEN THEN
+            DONE:=TRUE             (* BAIL OUT IF PAST BUFFER LIMITS *)
+      END (* WHILE *)
+   END (* IF *)
+END; (* PROCEDURE *)
+
+{*****************************************************************************
+
+ RT_PS_CST - MOVE INDEX RIGHT PAST CONSONANTS IN ENGLISH BUFFER
+
+******************************************************************************}
+
+PROCEDURE RT_PS_CST(VAR R_INDEX:INTEGER; VAR OCCURED:BOOLEAN);
+
+VAR
+   DONE:BOOLEAN;
+
+BEGIN (* PROCEDURE *)
+   IF R_INDEX <= E_LEN THEN BEGIN
+      DONE:=FALSE;                 (* CLEAR INITIALLY *)
+      WHILE NOT DONE DO BEGIN
+         IF NOT IS_CST(E_BUFFER[R_INDEX]) THEN
+            DONE:=TRUE             (* BAIL OUT OF SCAN *)
+         ELSE
+            R_INDEX:=R_INDEX+1;    (* BUMP INDEX *)
+         IF R_INDEX > E_LEN THEN
+            DONE:=TRUE             (* BAIL OUT IF PAST BUFFER LIMITS *)
+      END (* WHILE *)
+   END; (* IF *)
+   OCCURED:=TRUE                   (* RETURN VALUE *)
+END; (* PROCEDURE *)
+
+{*****************************************************************************
+
+ LF_PS_VWL - MOVE INDEX OF ENGLISH BUFFER LEFT PAST VOWELS
+
+******************************************************************************}
+
+PROCEDURE LF_PS_VWL(VAR R_INDEX:INTEGER; VAR OCCURED:BOOLEAN);
+
+VAR
+   DONE:BOOLEAN;
+
+BEGIN (* PROCEDURE *)
+   OCCURED:=FALSE;                 (* CLEAR INITIALLY *)
+   IF R_INDEX >= 1 THEN BEGIN
+      DONE:=FALSE;                 (* CLEAR INITIALLY *)
+      WHILE NOT DONE DO BEGIN
+         IF IS_VWL(E_BUFFER[R_INDEX]) THEN BEGIN
+            OCCURED:=TRUE;         (* SET OCCURANCE FLAG *)
+            R_INDEX:=R_INDEX-1     (* DECREMENT INDEX *)
+         END ELSE
+            DONE:=TRUE;            (* BAIL OUT OF SCAN *)
+         IF R_INDEX < 1 THEN
+            DONE:=TRUE             (* BAIL OUT IF PAST LOWER BOUNDS *)
+      END (* WHILE *)
+   END (* IF *)
+END; (* PROCEDURE *)
+
+{*****************************************************************************
+
+ LF_PS_CST - MOVE INDEX OF ENGLISH BUFFER LEFT PAST CONSONANTS
+
+******************************************************************************}
+
+PROCEDURE LF_PS_CST(VAR R_INDEX:INTEGER; VAR OCCURED:BOOLEAN);
+
+VAR
+   DONE:BOOLEAN;
+
+BEGIN (* PROCEDURE *)
+   IF R_INDEX >= 1 THEN BEGIN
+      DONE:=FALSE;                 (* CLEAR INITIALLY *)
+      WHILE NOT DONE DO BEGIN
+         IF NOT IS_CST(E_BUFFER[R_INDEX]) THEN
+            DONE:=TRUE             (* BAIL OUT OF SCAN *)
+         ELSE
+            R_INDEX:=R_INDEX-1;       (* DECREMENT INDEX *)
+         IF R_INDEX < 1 THEN
+            DONE:=TRUE             (* BAIL OUT IF PAST LOWER BOUNDS *)
+      END (* WHILE *)
+   END; (* IF *)
+   OCCURED:=TRUE                   (* RETURN VALUE *)
+END; (* PROCEDURE *)
+
+#endif
 
 //**************************************************************************
 
@@ -889,6 +1011,78 @@ void PhonemMaker::RUL_SRCH(int BLK_OFF, int BLK_SIZ)
    return;
 
 } // RUL_SRCH
+
+//*****************************************************************
+//*****************************************************************
+// The following methods belong in the SpeechSynthesizer  class.
+//*****************************************************************
+//*****************************************************************
+
+//*************************************************************************
+
+// STR_T_COD - CONVERT LITERAL PHONEM STRING TO CODE
+
+//*************************************************************************
+
+void PhonemMaker::STR_T_COD(std::string PH_STR)
+{
+   int INDEX;
+   bool MATCH;
+
+   // Point to begining of phonem table.
+   INDEX = 1;
+
+   // Clear initially.
+   MATCH = false;
+
+   while (!MATCH)
+   {
+      if (PH_STR == PHO_TBL[INDEX].ALPHA)
+      {
+         // Store phonem code.
+         P_BUFFER[P_INDEX] = PHO_TBL[INDEX].CODE;
+
+         // Exit loop.
+         MATCH = true;
+      } // if
+      else
+      {
+         // Reference the next item.
+         INDEX = INDEX + 1;
+      } // else
+
+      // Reference the next phonem in the buffer.
+      P_INDEX = P_INDEX + 1;
+   } // while
+
+  return;
+
+} // STR_T_COD
+
+//****************************************************************************
+
+// PH_TO_COD - CONVERT ARRAY OF PHONEM STRINGS INTO PHONEM CODES
+//****************************************************************************
+
+void PhonemMaker::PH_TO_COD(void)
+{
+   int INDEX;
+
+   // Point to beginning of array.
+   INDEX = 1;
+
+   while (PH_STR[INDEX] != ";")
+   {
+      // Convert phonems to codes.
+      STR_T_COD(PH_STR[INDEX]);
+
+      // Reference next entry.
+      INDEX = INDEX + 1;
+   } // while
+
+  return;
+
+} // PH_TO_COD
 
 
 
