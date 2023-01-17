@@ -1,9 +1,9 @@
 //**********************************************************************
-// file name: Parser.h
+// file name: PhonemMaker.h
 //**********************************************************************
 
-#ifndef _PARSER_H_
-#define _PARSER_H_
+#ifndef _PHONEMMAKER_H_
+#define _PHONEMMAKER_H_
 
 #include <stdlib.h>
 #include <unistd.h>
@@ -27,12 +27,12 @@ struct PhonemToCodeEntry
   uint8_t CODE;
 };
 
-class Parser
+class PhonemMaker
 {
   public:
 
-  Parser(void);
-  ~Parser(void);
+  PhonemMaker(void);
+  ~PhonemMaker(void);
 
   void STR_T_COD(std::string PH_STR);
   void PH_TO_COD(void);
@@ -79,4 +79,4 @@ class Parser
 
 };
 
-#endif // _PARSER_H_
+#endif // _PHONEMMAKER_H_

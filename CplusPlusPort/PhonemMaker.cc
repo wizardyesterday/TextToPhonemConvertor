@@ -1,8 +1,8 @@
 //**********************************************************************
-// file name: Parser.cc
+// file name: PhonemMaker.cc
 //**********************************************************************
 
-#include "Parser.h"
+#include "PhonemMaker.h"
    
 //*************************************************************************
 
@@ -10,7 +10,7 @@
 
 //*************************************************************************
 
-void Parser::STR_T_COD(std::string PH_STR)
+void PhonemMaker::STR_T_COD(std::string PH_STR)
 {
    int INDEX;
    bool MATCH;
@@ -50,7 +50,7 @@ void Parser::STR_T_COD(std::string PH_STR)
 // PH_TO_COD - CONVERT ARRAY OF PHONEM STRINGS INTO PHONEM CODES
 //****************************************************************************
 
-void Parser::PH_TO_COD(void)
+void PhonemMaker::PH_TO_COD(void)
 {
    int INDEX;
 
@@ -76,7 +76,7 @@ void Parser::PH_TO_COD(void)
 
 //*************************************************************************
 
-void Parser::BLD_LIT_P(int RUL_INDX)
+void PhonemMaker::BLD_LIT_P(int RUL_INDX)
 {
    int INDEX;
    int RES_INDX;
@@ -146,7 +146,7 @@ void Parser::BLD_LIT_P(int RUL_INDX)
 
 // **************************************************************************
 
-void Parser::SC_RT_CTX(int RT_INDX, int& RUL_INDX, bool& FOUND)
+void PhonemMaker::SC_RT_CTX(int RT_INDX, int& RUL_INDX, bool& FOUND)
 {
    int R_INDEX;
    bool WI_RULES;
@@ -278,7 +278,7 @@ void Parser::SC_RT_CTX(int RT_INDX, int& RUL_INDX, bool& FOUND)
 
 //***************************************************************************
 
-void Parser::SC_LF_CTX(int LEF_INDX, bool& FOUND)
+void PhonemMaker::SC_LF_CTX(int LEF_INDX, bool& FOUND)
 {
    int R_INDEX;
    int RUL_INDX;
