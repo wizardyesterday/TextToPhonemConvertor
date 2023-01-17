@@ -322,22 +322,48 @@ bool PhonemMaker::IS_CST(char CH)
 
 } // IS_CST
 
-#if 0
-
-{****************************************************************************
+/****************************************************************************
 
  IS_VO_CST - RETURN FLAG DETERMINING IF ARGUMENT IS A VOICED CONSONANT
 
-*****************************************************************************}
+*****************************************************************************/
 
-FUNCTION IS_VO_CST(CH:CHAR):BOOLEAN;
+bool PhonemMaker::IS_VO_CST(char CH)
+{
+   bool result;
 
-BEGIN (* FUNCTION *)
-   IF CH IN ['B','D','G','J','L','M','N','R','V','W','Z'] THEN
-      IS_VO_CST:=TRUE          (* RETURN TRUE *)
-   ELSE
-      IS_VO_CST:=FALSE         (* RETURN FALSE *)
-END; (* FUNCTION *)
+   switch(CH)
+   {
+      case 'B':
+      case 'D':
+      case 'G':
+      case 'J':
+      case 'L':
+      case 'M':
+      case 'N':
+      case 'R':
+      case 'V':
+      case 'W':
+      case 'Z':
+      {
+         // The character is a front vowel.
+         result = true;
+         break;
+      } // case
+
+      default:
+      {
+         // The character is not a front vowel.
+         result = false;;
+         break;
+      } // case
+   } // switch
+
+   return (result);
+
+} // IS_VO_CST
+
+#if 0
 
 {*****************************************************************************
 
