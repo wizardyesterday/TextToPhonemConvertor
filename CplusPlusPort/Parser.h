@@ -37,12 +37,12 @@ class Parser
   void STR_T_COD(std::string PH_STR);
   void PH_TO_COD(void);
   void BLD_LIT_P(int RUL_INDX);
-  void SC_RT_CTX(int RT_INDX, int *UL_INDX, bool *FOUND);
-  void SC_LF_CTX(int LEF_INDX, bool *FOUND);
-  bool CMP_REF_S;
-  void BLD_REF_S(int LEF_INDX, int *RT_INDX);
-  void FI_LF_PAR(int *LEF_INDX);
-  bool SCAN;
+  void SC_RT_CTX(int RT_INDX, int& RUL_INDX, bool& FOUND);
+  void SC_LF_CTX(int LEF_INDX, bool& FOUND);
+  bool CMP_REF_S(void);
+  void BLD_REF_S(int LEF_INDX, int& RT_INDX);
+  void FI_LF_PAR(int& LEF_INDX);
+  bool SCAN(void);
   void RUL_SRCH(int BLK_OFF, int BLK_SIZ);
 
   private:
@@ -55,10 +55,10 @@ class Parser
   bool IS_FR_VWL(char PAR1);
   bool IS_CST(char PAR1);
   bool IS_VO_CST(char PAR1);
-  void RT_PS_VWL(int *PAR1, bool *PAR2);
-  void LF_PS_VWL(int *PAR1, bool *PAR2);
-  bool RT_PS_CST(int *PAR1, bool *PAR2);
-  void LF_PS_CST(int *PAR1, bool *PAR2);
+  void RT_PS_VWL(int& PAR1, bool& PAR2);
+  void LF_PS_VWL(int& PAR1, bool& PAR2);
+  bool RT_PS_CST(int& PAR1, bool& PAR2);
+  void LF_PS_CST(int& PAR1, bool& PAR2);
 
   //*****************************************
   // Attributes.
