@@ -298,23 +298,31 @@ bool PhonemMaker::IS_FR_VWL(char CH)
 
 } // IS_VWL
 
-#if 0
-
-{*****************************************************************************
+/*****************************************************************************
 
 
  IS_CST - RETURN FLAG DETERMINING IF ARGUMENT IS A CONSONANT
 
-*****************************************************************************}
+*****************************************************************************/
 
-FUNCTION IS_CST(CH:CHAR):BOOLEAN;
+bool PhonemMaker::IS_CST(char CH)
+{
+   bool result;
 
-BEGIN (* FUNCTION *)
-   IF (IS_ALPHA(CH)) AND (NOT IS_VWL(CH)) THEN
-      IS_CST:=TRUE              (* RETURN TRUE *)
-   ELSE
-      IS_CST:=FALSE             (* RETURN FALSE *)
-END; (* FUNCTION *)
+   if (IS_ALPHA(CH) && (!IS_VWL(CH)))
+   {
+      result = true;
+   } // if
+   else
+   {
+      result = false;
+   } // else
+
+   return (result);
+
+} // IS_CST
+
+#if 0
 
 {****************************************************************************
 
