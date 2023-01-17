@@ -172,8 +172,7 @@ void Parser::SC_RT_CTX(int RT_INDX, int& RUL_INDX, bool& FOUND)
          DONE = false;
 
          while ((!DONE) && (R_BUFFER[RUL_INDX] != '='))
-         {
-          
+         {          
             switch (R_BUFFER[RUL_INDX])
             {
                case '!':
@@ -273,56 +272,130 @@ void Parser::SC_RT_CTX(int RT_INDX, int& RUL_INDX, bool& FOUND)
 
 } // SC_RT_CTX
 
+//***************************************************************************
+
+// SC_LF_CTX - SCAN LEFT CONTEXT OF A RULE IF IT EXISTS
+
+//***************************************************************************
+
+void Parser::SC_LF_CTX(int LEF_INDX, bool& FOUND)
+{
+   int R_INDEX;
+   int RUL_INDX;
+   bool EITHER;
+   bool OCCURED;
+   bool DONE;
+   bool WI_RULES;
+
+   // Clear initially.
+   WI_RULES = false;
+   OCCURED = false;
+
+   if (E_INDEX > 1)
+   {
+      // Point to the left of left parent.
+      RUL_INDX = LEF_INDX - 1;
+
+      // Set up running index in English buffer.
+      R_INDEX = E_INDEX - 1;
+
+      // Clear initially.
+      DONE = false;
+
+      while ((!DONE) && (RUL_INDX >= 1))
+      {
+         switch (R_BUFFER[RUL_INDX])
+         {
+            case '!':
+            {
+               WI_RULES = !IS_ALPHA(E_BUFFER[R_INDEX]);
+               break;
+            }  // case
+
+            case '#':
+            {
+               LF_PS_VWL(R_INDEX,OCCURED);
+               break;
+            }  // case
+
+            case ':':
+            {
+               LF_PS_CST(R_INDEX,OCCURED);
+               break;
+            }  // case
+
+            case '+':
+            {
+               WI_RULES = IS_FR_VWL(E_BUFFER[R_INDEX]);
+               break;
+            }  // case
+
+            case '$':
+            {
+               WI_RULES = IS_CST(E_BUFFER[R_INDEX]);
+               break;
+            }  // case
+
+            case'.':
+            {
+               WI_RULES = IS_VO_CST(E_BUFFER[R_INDEX]);
+            }  // case
+               break;
+
+            default:
+            {
+               WI_RULES = (R_BUFFER[RUL_INDX] == E_BUFFER[R_INDEX]);
+               break;
+            }  // case
+         } // switch
+
+         if (WI_RULES)
+         {
+            // Decrement running index.
+            R_INDEX = R_INDEX - 1;
+         } // if
+
+         // Save either true result.
+         EITHER = WI_RULES || OCCURED;
+
+         // Clear flags.
+         WI_RULES = false;
+         OCCURED = false;
+
+         // Decrement rule index.
+         RUL_INDX = RUL_INDX - 1;
+
+         if (R_INDEX < 1)
+         {
+            // Exit scan loop.
+            DONE = true;
+
+            if (RUL_INDX >= 1)
+            {
+               EITHER = false;
+            } // if
+         } // if
+
+         if (!EITHER)
+         {
+            // Exit if scan failed.
+            DONE = true;
+         } // if
+      } // while
+
+      // Return result.
+      FOUND = EITHER;
+   } // if
+   else
+   {
+      FOUND = false;
+   } // else
+
+   return;
+
+} // SC_LF_CTX
+
 #if 0
-
-{****************************************************************************
-
- SC_LF_CTX - SCAN LEFT CONTEXT OF A RULE IF IT EXISTS
-
-****************************************************************************}
-
-PROCEDURE SC_LF_CTX(LEF_INDX:INTEGER; VAR FOUND:BOOLEAN);
-
-VAR
-   R_INDEX,RUL_INDX:INTEGER;
-   EITHER,OCCURED,DONE,WI_RULES:BOOLEAN;
-
-BEGIN (* PROCEDURE *)
-   WI_RULES:=FALSE;              (* CLEAR INITIALLY *)
-   OCCURED:=FALSE;
-   IF E_INDEX > 1 THEN BEGIN
-      RUL_INDX:=LEF_INDX-1;      (* POINT TO THE LEFT OF LEFT PARENT *)
-      R_INDEX:=E_INDEX-1;        (* SET UP RUNNING INDEX IN ENGLISH BUFFER *)
-      DONE:=FALSE;               (* CLEAR INITIALLY *)
-      WHILE (NOT DONE) AND (RUL_INDX >= 1) DO BEGIN
-         CASE R_BUFFER[RUL_INDX] OF
-            '!':WI_RULES:=NOT IS_ALPHA(E_BUFFER[R_INDEX]);
-            '#':LF_PS_VWL(R_INDEX,OCCURED);
-            ':':LF_PS_CST(R_INDEX,OCCURED);
-            '+':WI_RULES:=IS_FR_VWL(E_BUFFER[R_INDEX]);
-            '$':WI_RULES:=IS_CST(E_BUFFER[R_INDEX]);
-            '.':WI_RULES:=IS_VO_CST(E_BUFFER[R_INDEX])
-         ELSE
-            WI_RULES:=(R_BUFFER[RUL_INDX] = E_BUFFER[R_INDEX])
-         END; (* CASE *)
-         IF WI_RULES THEN
-            R_INDEX:=R_INDEX-1;  (* DECREMENT RUNNING INDEX *)
-         EITHER:=((WI_RULES) OR (OCCURED)); (* SAVE EITHER TRUE RESULT *)
-         WI_RULES:=FALSE;         (* CLEAR FLAGS *)
-         OCCURED:=FALSE;
-         RUL_INDX:=RUL_INDX-1;   (* DECREMENT RULE INDEX *)
-         IF R_INDEX < 1 THEN BEGIN
-            DONE:=TRUE;          (* EXIT SCAN LOOP *)
-            IF RUL_INDX >= 1 THEN
-               EITHER:=FALSE     (* RETURN FALSE *)
-         END; (* IF *)
-         IF NOT EITHER THEN
-            DONE:=TRUE           (* EXIT SCAN IF FAILED *)
-      END; (* WHILE *)
-      FOUND:=EITHER              (* RETURN RESULT *)
-   END ELSE
-      FOUND:=FALSE               (* RETURN FALSE *)
-END; (* PROCEDURE *)
 
 {****************************************************************************
 
