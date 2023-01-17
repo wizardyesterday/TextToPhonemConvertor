@@ -479,21 +479,29 @@ void PhonemMaker::BLD_REF_S(int LEF_INDX, int& RT_INDX)
 
 } // BLD_REF_S
 
+//***************************************************************************
+
+// FI_LF_PAR - SCAN RULE BUFFER UNTIL LEFT PARENT IS FOUND
+
+//***************************************************************************
+
+void PhonemMaker::FI_LF_PAR(int& LEF_INDX)
+{
+
+   // Point to beginning of buffer.
+   LEF_INDX = 1;
+
+   while (R_BUFFER[LEF_INDX] != '(')
+   {
+      // Bump left parent index.
+      LEF_INDX = LEF_INDX + 1;
+   } // while
+
+   return;
+
+} // FI_LF_PAR
+
 #if 0
-
-{****************************************************************************
-
- FI_LF_PAR - SCAN RULE BUFFER UNTIL LEFT PARENT IS FOUND
-
-****************************************************************************}
-
-PROCEDURE FI_LF_PAR(VAR LEF_INDX:INTEGER);
-
-BEGIN (* PROCEDURE *)
-   LEF_INDX:=1;                (* POINT TO BEGINING OF BUFFER *)
-   WHILE R_BUFFER[LEF_INDX] <> '(' DO
-      LEF_INDX:=LEF_INDX+1     (* BUMP LEFT PARENT INDEX *)
-END; (* PROCEDURE *)
 
 {****************************************************************************
 
