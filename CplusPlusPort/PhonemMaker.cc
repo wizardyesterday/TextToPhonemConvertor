@@ -63,7 +63,7 @@ void PhonemMaker::PH_TO_COD(void)
       STR_T_COD(PH_STR[INDEX]);
 
       // Reference next entry.
-      INDEX = INDEX+1;
+      INDEX = INDEX + 1;
    } // while
 
   return;
