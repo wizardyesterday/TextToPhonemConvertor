@@ -501,41 +501,72 @@ void PhonemMaker::FI_LF_PAR(int& LEF_INDX)
 
 } // FI_LF_PAR
 
+//***************************************************************************
+
+// SCAN - SCAN A RULE STRING AND RETURN RESULT WHETHER FOUND
+
+//***************************************************************************
+
+bool PhonemMaker::SCAN(void)
+{
+   bool result;
+   int LEF_INDX;
+   int RT_INDX;
+   int RUL_INDX;
+   bool WI_RULES;
+
+   // Clear initially.
+   WI_RULES = false;
+
+   // Find left parent.
+   FI_LF_PAR(LEF_INDX);
+
+   // Build reference string, and return right parent.
+   BLD_REF_S(LEF_INDX,RT_INDX);
+
+   // Compare reference string to English.
+   if (CMP_REF_S())
+   {
+      if (LEF_INDX > 1)
+      {
+         // Scan left context.
+         SC_LF_CTX(LEF_INDX,WI_RULES);
+
+         // If there is a left context.
+         if (WI_RULES)
+         {
+            // Scan right context.
+            SC_RT_CTX(RT_INDX,RUL_INDX,WI_RULES);
+         } // if
+      } // if
+      else
+      {
+         // Scan right context.
+         SC_RT_CTX(RT_INDX,RUL_INDX,WI_RULES);
+      } // else
+   } // if
+
+   if (WI_RULES)
+   {
+      // Build literal phonem string.
+      BLD_LIT_P(RUL_INDX);
+
+      // Convert to phonem codes.
+      PH_TO_COD();
+
+      // Bump English index.
+      E_INDEX = E_INDEX + REF_STR.length();
+   } // if
+
+   // Set return value based upon result.  Yes, it's redundant.
+   result  = WI_RULES;
+
+   return (result);
+
+} // SCAN
+
 #if 0
 
-{****************************************************************************
-
- SCAN - SCAN A RULE STRING AND RETURN RESULT WHETHER FOUND
-
-****************************************************************************}
-
-FUNCTION SCAN:BOOLEAN;
-
-VAR
-   LEF_INDX,RT_INDX,RUL_INDX:INTEGER;
-   WI_RULES:BOOLEAN;
-
-BEGIN (* FUNCTION *)
-   WI_RULES:=FALSE;             (* CLEAR INITIALLY *)
-   FI_LF_PAR(LEF_INDX);         (* FIND INDEX OF LEFT PARENT *)
-   BLD_REF_S(LEF_INDX,RT_INDX); (* BUILD REF STRING AND RETURN RIGHT PARENT *)
-   IF CMP_REF_S THEN BEGIN      (* COMPARE REFERENCE STRING TO ENGLISH *)
-      IF LEF_INDX > 1 THEN BEGIN
-         SC_LF_CTX(LEF_INDX,WI_RULES); (* SCAN LEFT CONTEXT *)
-         IF WI_RULES THEN       (* IF THERE IS A LEFT CONTEXT *)
-            SC_RT_CTX(RT_INDX,RUL_INDX,WI_RULES) (* SCAN RIGHT CONTEXT *)
-      END ELSE
-         SC_RT_CTX(RT_INDX,RUL_INDX,WI_RULES)    (* SCAN RIGHT CONTEXT *)
-   END; (* IF *)
-   IF WI_RULES THEN BEGIN
-      BLD_LIT_P(RUL_INDX);    (* BUILD LITERAL PHONEM STRING *)
-      PH_TO_COD;              (* CONVERT TO PHONEM CODES *)
-      E_INDEX:=E_INDEX+LENGTH(REF_STR)  (* BUMP ENGLISH INDEX *)
-   END; (* IF *)
-   SCAN:=WI_RULES             (* RETURN VALUE *)
-END; (* FUNCTION *)
-
-(*$E+*)
 {*****************************************************************************
 
  RUL_SRCH - SCAN RULES OF A LETTER OR NUMBER AND GENERATE PHONEMS
