@@ -395,39 +395,62 @@ void PhonemMaker::SC_LF_CTX(int LEF_INDX, bool& FOUND)
 
 } // SC_LF_CTX
 
+//***************************************************************************
+
+// CMP_REF_S - COMPARE REFERENCE STRING TO A SEGMENT IN THE ENGLISH STRING
+//             RETURN RESULT AS TRUE OR FALSE
+
+//***************************************************************************
+
+bool PhonemMaker::CMP_REF_S(void)
+{
+   bool result;
+   int INDEX;
+   int LIMIT;
+   bool DONE;
+
+   // Point to the beginning of the reference string.
+   INDEX = 1;
+
+   // Set upper limit.
+   LIMIT = REF_STR.length();
+
+   // Set up for loop entry.
+   DONE = false;
+
+   while (!DONE)
+   {
+      if (REF_STR[INDEX] != (E_BUFFER[E_INDEX + INDEX - 1]))
+      {
+         DONE = true;
+      } // if
+      else
+      {
+         // Reference next item.
+         INDEX = INDEX + 1;
+
+         if (INDEX > LIMIT)
+         {
+            // Exit from loop.
+            DONE = true;
+         } // if
+      } // else
+   } // while
+
+   if (INDEX > LIMIT)
+   {
+      result = true;
+   } // if
+   else
+   {
+      result = false;
+   } // if
+
+   return (result);
+
+} // CMP_REF_S
+
 #if 0
-
-{****************************************************************************
-
- CMP_REF_S - COMPARE REFERENCE STRING TO A SEGMENT IN THE ENGLISH STRING
-             RETURN RESULT AS TRUE OR FALSE
-
-****************************************************************************}
-
-FUNCTION CMP_REF_S:BOOLEAN;
-
-VAR
-   INDEX,LIMIT:INTEGER;
-   DONE:BOOLEAN;
-
-BEGIN (* FUNCTION *)
-   INDEX:=1;                    (* POINT TO BEGINING OF REFERENCE STRING *)
-   LIMIT:=LENGTH(REF_STR);      (* GET LIMIT *)
-   DONE:=FALSE;                 (* CLEAR INITIALLY *)
-   WHILE NOT DONE DO BEGIN
-      IF REF_STR[INDEX] <> E_BUFFER[E_INDEX+INDEX-1] THEN
-         DONE:=TRUE             (* EXIT FROM LOOP *)
-      ELSE BEGIN
-         INDEX:=INDEX+1;        (* BUMP INDEX *)
-         IF INDEX > LIMIT THEN
-            DONE:=TRUE          (* EXIT FROM LOOP *)
-      END (* IF *)
-   END; (* WHILE *)
-   IF INDEX > LIMIT THEN
-      CMP_REF_S:=TRUE           (* RETURN TRUE *)
-   ELSE
-      CMP_REF_S:=FALSE          (* RETURN FALSE *)
-END; (* FUNCTION *)
 
 {*****************************************************************************
 
@@ -590,4 +613,3 @@ BEGIN (* PROCEDURE *)
 END; (* PROCEDURE *)
 
 #endif
-
