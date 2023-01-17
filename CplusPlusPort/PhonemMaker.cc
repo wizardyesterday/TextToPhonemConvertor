@@ -261,6 +261,38 @@ bool PhonemMaker::IS_VWL(char CH)
       } // case
    } // switch
 
+   return (result);
+
+} // IS_VWL
+
+/****************************************************************************
+
+ IS_FR_VWL - RETURN FLAG DETERMINING IF ARGUMENT IS A FRONT VOWEL
+
+****************************************************************************/
+
+bool PhonemMaker::IS_FR_VWL(char CH)
+{
+   bool result;
+
+   switch(CH)
+   {
+      case 'E':
+      case 'I':
+      case 'Y':
+      {
+         // The character is a front vowel.
+         result = true;
+         break;
+      } // case
+
+      default:
+      {
+         // The character is not a front vowel.
+         result = false;;
+         break;
+      } // case
+   } // switch
 
    return (result);
 
@@ -268,22 +300,8 @@ bool PhonemMaker::IS_VWL(char CH)
 
 #if 0
 
-{****************************************************************************
-
- IS_FR_VWL - RETURN FLAG DETERMINING IF ARGUMENT IS A FRONT VOWEL
-
-****************************************************************************}
-
-FUNCTION IS_FR_VWL(CH:CHAR):BOOLEAN;
-
-BEGIN (* FUNCTION *)
-   IF CH IN ['E','I','Y'] THEN
-      IS_FR_VWL:=TRUE            (* RETURN TRUE *)
-   ELSE
-      IS_FR_VWL:=FALSE           (* RETURN FALSE *)
-END; (* FUNCTION *)
-
 {*****************************************************************************
+
 
  IS_CST - RETURN FLAG DETERMINING IF ARGUMENT IS A CONSONANT
 
