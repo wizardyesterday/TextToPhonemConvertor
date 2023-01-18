@@ -98,7 +98,6 @@ class PhonemMaker
 
   // Next available location in the phonem buffer.
   int P_INDEX;
-
 };
 
 #endif // _PHONEMMAKER_H_
