@@ -38,18 +38,6 @@ class PhonemMaker
   void acceptEnglishText(std::string& INBUF, uint8_t*& phonemBuffer,
                          uint32_t& phonemCount);
 
-  void BLD_LIT_P(int RUL_INDX);
-  void SC_RT_CTX(int RT_INDX, int& RUL_INDX, bool& FOUND);
-  void SC_LF_CTX(int LEF_INDX, bool& FOUND);
-  bool CMP_REF_S(void);
-  void BLD_REF_S(int LEF_INDX, int& RT_INDX);
-  void FI_LF_PAR(int& LEF_INDX);
-  bool SCAN(void);
-  void RUL_SRCH(int BLK_OFF, int BLK_SIZ);
-
-  // These methods will be moved to the SpeechSynthesizer class.
-  void STR_T_COD(std::string PH_STR);
-  void PH_TO_COD(void);
 
   private:
 
@@ -66,21 +54,49 @@ class PhonemMaker
   void RT_PS_CST(int& R_INDEX, bool& OCCURED);
   void LF_PS_CST(int& R_INDEX, bool& OCCURED);
 
+  void BLD_LIT_P(int RUL_INDX);
+  void SC_RT_CTX(int RT_INDX, int& RUL_INDX, bool& FOUND);
+  void SC_LF_CTX(int LEF_INDX, bool& FOUND);
+  bool CMP_REF_S(void);
+  void BLD_REF_S(int LEF_INDX, int& RT_INDX);
+  void FI_LF_PAR(int& LEF_INDX);
+  bool SCAN(void);
+  void RUL_SRCH(int BLK_OFF, int BLK_SIZ);
+
+  void STR_T_COD(std::string PH_STR);
+  void PH_TO_COD(void);
+
   //*****************************************
   // Attributes.
   //*****************************************
+  // English uppercase English text buffer.
   char E_BUFFER[MAXLINE+1];
+
+  // Buffer used for phonem storage.
   uint8_t P_BUFFER[MAXPHO+1];
+
+  // This is a table of phonetic rules.
   std::string RUL_TBL[NUM_RULE+1];
+
+  // This table is used to map textual phonems to binary values.
   PhonemToCodeEntry PHO_TBL[NUM_PHON+1];
 
+  // Storage for the current rule.
   std::string R_BUFFER;
+
+  // This is used for string comparison with the English buffer.
   std::string REF_STR;
+
+  // Storage for a phonem string to be evaluated.
   std::string PH_STR[31];
 
-
+  // Number of entries in the English buffer.
   int E_LEN;
+
+  // Next available location in the English buffer.
   int E_INDEX;
+
+  // Next available location in the phonem buffer.
   int P_INDEX;
 
 };
