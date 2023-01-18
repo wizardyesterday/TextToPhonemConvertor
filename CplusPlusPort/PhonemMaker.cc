@@ -500,41 +500,55 @@ void PhonemMaker::LF_PS_VWL(int& R_INDEX, bool& OCCURED)
 
 } // LF_PS_VWL
 
-#if 0
 
-{*****************************************************************************
+/****************************************************************************
 
  LF_PS_CST - MOVE INDEX OF ENGLISH BUFFER LEFT PAST CONSONANTS
 
-******************************************************************************}
+*****************************************************************************/
 
-PROCEDURE LF_PS_CST(VAR R_INDEX:INTEGER; VAR OCCURED:BOOLEAN);
+void PhonemMaker::LF_PS_CST(int& R_INDEX, bool& OCCURED)
+{
+   bool DONE;
 
-VAR
-   DONE:BOOLEAN;
+   if (R_INDEX >= 1)
+   {
+      // Set up for loop entry.
+      DONE = false;
 
-BEGIN (* PROCEDURE *)
-   IF R_INDEX >= 1 THEN BEGIN
-      DONE:=FALSE;                 (* CLEAR INITIALLY *)
-      WHILE NOT DONE DO BEGIN
-         IF NOT IS_CST(E_BUFFER[R_INDEX]) THEN
-            DONE:=TRUE             (* BAIL OUT OF SCAN *)
-         ELSE
-            R_INDEX:=R_INDEX-1;       (* DECREMENT INDEX *)
-         IF R_INDEX < 1 THEN
-            DONE:=TRUE             (* BAIL OUT IF PAST LOWER BOUNDS *)
-      END (* WHILE *)
-   END; (* IF *)
-   OCCURED:=TRUE                   (* RETURN VALUE *)
-END; (* PROCEDURE *)
+      while (!DONE)
+      {
+         if (!IS_CST(E_BUFFER[R_INDEX]))
+         {
+            // Bail out of scan.
+            DONE = true;
+         } // if
+         else
+         {
+            // Reference character to the left.
+            R_INDEX = R_INDEX - 1;
+         } // else
 
-#endif
+         if (R_INDEX < 1)
+         {
+            // Bail out if past lower bounds.
+            DONE = true;
+         } // if
+      } // while
+   } // if
 
-//**************************************************************************
+   // Indicate occurance.
+   OCCURED = true;
 
-// BLD_LIT_P - BUILD LITERAL PHONEM STRING IN ARRAY OF PHONEM STRING 
+   return;
 
-//*************************************************************************
+} // LF_PS_CST
+
+/**************************************************************************
+
+ BLD_LIT_P - BUILD LITERAL PHONEM STRING IN ARRAY OF PHONEM STRING 
+
+**************************************************************************/
 
 void PhonemMaker::BLD_LIT_P(int RUL_INDX)
 {
@@ -600,11 +614,11 @@ void PhonemMaker::BLD_LIT_P(int RUL_INDX)
 
 } // BLD_LIT_P
 
-//***************************************************************************
+/***************************************************************************
 
 // SC_RT_CTX - SCAN RIGHT CONTEXT OF A RULE
 
-// **************************************************************************
+***************************************************************************/
 
 void PhonemMaker::SC_RT_CTX(int RT_INDX, int& RUL_INDX, bool& FOUND)
 {
@@ -732,11 +746,11 @@ void PhonemMaker::SC_RT_CTX(int RT_INDX, int& RUL_INDX, bool& FOUND)
 
 } // SC_RT_CTX
 
-//***************************************************************************
+/***************************************************************************
 
-// SC_LF_CTX - SCAN LEFT CONTEXT OF A RULE IF IT EXISTS
+ SC_LF_CTX - SCAN LEFT CONTEXT OF A RULE IF IT EXISTS
 
-//***************************************************************************
+****************************************************************************/
 
 void PhonemMaker::SC_LF_CTX(int LEF_INDX, bool& FOUND)
 {
@@ -855,12 +869,12 @@ void PhonemMaker::SC_LF_CTX(int LEF_INDX, bool& FOUND)
 
 } // SC_LF_CTX
 
-//***************************************************************************
+/***************************************************************************
 
-// CMP_REF_S - COMPARE REFERENCE STRING TO A SEGMENT IN THE ENGLISH STRING
-//             RETURN RESULT AS TRUE OR FALSE
+ CMP_REF_S - COMPARE REFERENCE STRING TO A SEGMENT IN THE ENGLISH STRING
+             RETURN RESULT AS TRUE OR FALSE
 
-//***************************************************************************
+****************************************************************************/
 
 bool PhonemMaker::CMP_REF_S(void)
 {
@@ -910,12 +924,12 @@ bool PhonemMaker::CMP_REF_S(void)
 
 } // CMP_REF_S
 
-//****************************************************************************
+/****************************************************************************
 
-// BLD_REF_S - BUILD REFERENCE STRING FROM RULE BUFFER
-//             AND RETURN RIGHT PARENT INDEX 
+ BLD_REF_S - BUILD REFERENCE STRING FROM RULE BUFFER
+             AND RETURN RIGHT PARENT INDEX 
 
-//****************************************************************************
+****************************************************************************/
 
 void PhonemMaker::BLD_REF_S(int LEF_INDX, int& RT_INDX)
 {
@@ -939,11 +953,11 @@ void PhonemMaker::BLD_REF_S(int LEF_INDX, int& RT_INDX)
 
 } // BLD_REF_S
 
-//***************************************************************************
+/***************************************************************************
 
-// FI_LF_PAR - SCAN RULE BUFFER UNTIL LEFT PARENT IS FOUND
+ FI_LF_PAR - SCAN RULE BUFFER UNTIL LEFT PARENT IS FOUND
 
-//***************************************************************************
+***************************************************************************/
 
 void PhonemMaker::FI_LF_PAR(int& LEF_INDX)
 {
@@ -961,11 +975,11 @@ void PhonemMaker::FI_LF_PAR(int& LEF_INDX)
 
 } // FI_LF_PAR
 
-//***************************************************************************
+/***************************************************************************
 
-// SCAN - SCAN A RULE STRING AND RETURN RESULT WHETHER FOUND
+ SCAN - SCAN A RULE STRING AND RETURN RESULT WHETHER FOUND
 
-//***************************************************************************
+***************************************************************************/
 
 bool PhonemMaker::SCAN(void)
 {
@@ -1150,11 +1164,11 @@ void PhonemMaker::RUL_SRCH(int BLK_OFF, int BLK_SIZ)
 //*****************************************************************
 //*****************************************************************
 
-//*************************************************************************
+/*************************************************************************
 
-// STR_T_COD - CONVERT LITERAL PHONEM STRING TO CODE
+ STR_T_COD - CONVERT LITERAL PHONEM STRING TO CODE
 
-//*************************************************************************
+*************************************************************************/
 
 void PhonemMaker::STR_T_COD(std::string PH_STR)
 {
@@ -1191,10 +1205,11 @@ void PhonemMaker::STR_T_COD(std::string PH_STR)
 
 } // STR_T_COD
 
-//****************************************************************************
+/****************************************************************************
 
-// PH_TO_COD - CONVERT ARRAY OF PHONEM STRINGS INTO PHONEM CODES
-//****************************************************************************
+ PH_TO_COD - CONVERT ARRAY OF PHONEM STRINGS INTO PHONEM CODES
+
+****************************************************************************/
 
 void PhonemMaker::PH_TO_COD(void)
 {
