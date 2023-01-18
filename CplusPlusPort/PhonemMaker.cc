@@ -7,14 +7,14 @@
 
 /*****************************************************************************
 
- ENG_TO_PH - CONVERT ENGLISH TEXT TO PHONEM STRING
+ acceptEnglishText - CONVERT ENGLISH TEXT TO PHONEM STRING
  This is really the entry point into the phonem processing engine.
 
 *****************************************************************************/
 
-void PhonemMaker::ENG_TO_PH(std::string& INBUF,
-                            uint8_t*& phonemBuffer,
-                            uint32_t& phonemCount)
+void PhonemMaker::acceptEnglishText(std::string& INBUF,
+                                    uint8_t*& phonemBuffer,
+                                    uint32_t& phonemCount)
 
 {
    int INDEX;

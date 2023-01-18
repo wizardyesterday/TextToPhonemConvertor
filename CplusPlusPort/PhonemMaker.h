@@ -35,8 +35,8 @@ class PhonemMaker
   PhonemMaker(void);
   ~PhonemMaker(void);
 
-  void ENG_TO_PH(std::string& INBUF, uint8_t*& phonemBuffer,
-                 uint32_t& phonemCount);
+  void acceptEnglishText(std::string& INBUF, uint8_t*& phonemBuffer,
+                         uint32_t& phonemCount);
 
   void BLD_LIT_P(int RUL_INDX);
   void SC_RT_CTX(int RT_INDX, int& RUL_INDX, bool& FOUND);
