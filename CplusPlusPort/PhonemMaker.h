@@ -35,7 +35,9 @@ class PhonemMaker
   PhonemMaker(void);
   ~PhonemMaker(void);
 
-  void ENG_TO_PH(std::string& INBUF);
+  void ENG_TO_PH(std::string& INBUF, uint8_t*& phonemBuffer,
+                 uint32_t& phonemCount);
+
   void BLD_LIT_P(int RUL_INDX);
   void SC_RT_CTX(int RT_INDX, int& RUL_INDX, bool& FOUND);
   void SC_LF_CTX(int LEF_INDX, bool& FOUND);
@@ -68,7 +70,7 @@ class PhonemMaker
   // Attributes.
   //*****************************************
   char E_BUFFER[MAXLINE+1];
-  char P_BUFFER[MAXPHO+1];
+  uint8_t P_BUFFER[MAXPHO+1];
   std::string RUL_TBL[NUM_RULE+1];
   PhonemToCodeEntry PHO_TBL[NUM_PHON+1];
 

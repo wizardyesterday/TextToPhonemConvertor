@@ -12,7 +12,10 @@
 
 *****************************************************************************/
 
-void PhonemMaker::ENG_TO_PH(std::string& INBUF)
+void PhonemMaker::ENG_TO_PH(std::string& INBUF,
+                            uint8_t*& phonemBuffer,
+                            uint32_t& phonemCount)
+
 {
    int INDEX;
 
@@ -205,6 +208,10 @@ void PhonemMaker::ENG_TO_PH(std::string& INBUF)
          } // case
       } // switch
    } // while
+
+   // Set return values.  Note that references are being used.
+   phonemCount = P_INDEX - 1;
+   phonemBuffer = P_BUFFER;
 
    return;
 
