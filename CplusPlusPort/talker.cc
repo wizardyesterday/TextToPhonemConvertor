@@ -152,6 +152,10 @@ static bool getSystemParameters(int& ruleCount,int& phonemCount)
       fclose(ruleStream);
    } // if
 
+   // Account for extra increments.
+   ruleCount--;
+   phonemCount--;
+
    // Does the phonem file and the phonetic rules exist?
    if (numberOfExistingFiles == 2)
    {
