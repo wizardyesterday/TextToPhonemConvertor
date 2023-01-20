@@ -1292,6 +1292,9 @@ fprintf(stderr,"STR_T_COD(), PH_STR: %s\n",PH_STR.c_str());
          // Store phonem code.
          P_BUFFER[P_INDEX] = PHO_TBL[INDEX].CODE;
 
+         // Reference the next phonem buffer location.
+         P_INDEX = P_INDEX + 1;
+
          // Exit loop.
          MATCH = true;
       } // if
@@ -1300,9 +1303,6 @@ fprintf(stderr,"STR_T_COD(), PH_STR: %s\n",PH_STR.c_str());
          // Reference the next item.
          INDEX = INDEX + 1;
       } // else
-
-      // Reference the next phonem in the buffer.
-      P_INDEX = P_INDEX + 1;
    } // while
 
   return;
