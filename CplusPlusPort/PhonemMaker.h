@@ -32,7 +32,11 @@ class PhonemMaker
 {
   public:
 
-  PhonemMaker(void);
+  PhonemMaker(std::string theRules[],
+              int numberOfRules,
+              PhonemToCodeEntry *phonemMapPtr,
+              int numberOfPhonems);
+
   ~PhonemMaker(void);
 
   void acceptEnglishText(std::string& INBUF, uint8_t*& phonemBuffer,
@@ -74,6 +78,9 @@ class PhonemMaker
 
   // Buffer used for phonem storage.
   uint8_t P_BUFFER[MAXPHO+1];
+
+  // This tables contains the textual phonetic rules.
+  std::string RUL_TBL[NUM_RULE+1];
 
   // This table is used to map textual phonems to binary values.
   PhonemToCodeEntry PHO_TBL[NUM_PHON+1];

@@ -4,91 +4,88 @@
 
 #include "PhonemMaker.h"
 
-//_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-// This is the table of phonetic rules.
-//_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-static std::string RUL_TBL[] =
+/************************************************************************
+
+  Name: PhonemMaker
+
+  Purpose: The purpose of this function is to serve as the constructor
+  of a PhonemMaker object.
+
+  Calling Sequence: PhonemMaker(rules,
+                                numberOfRules,
+                                phonemMapPtr,
+                                numberOfPhonems)
+
+  Inputs:
+
+    rules - An array of strings that represent the phonetic rules.
+
+    numberOfRules - The number of phonetic rules.
+
+    phonemTable - An array of structures that maps textual phonems to
+    the binary phonem code that is presented to the voice synthesizer.
+
+    numberOfPhonems - The number of phonems in the phonem table.
+
+  Outputs:
+
+    None.
+
+**************************************************************************/
+PhonemMaker::PhonemMaker(std::string rules[],
+                         int numberOfRules,
+                         PhonemToCodeEntry *phonemMapPtr,
+                         int numberOfPhonems)
 {
-   "Unused Entry",
-   "(A)!=UH2;",
-   "(AR)=AH1,R;",
-   "#:(AL)!=UH,L;",
-   "(AL)$=AW1,UH3,L;",
-   "(A)=AE1;",
-   "(B)=B;",
-   "(CH)=T,CH;",
-   "(C)+=S;",
-   "(C)=K;",
-   "(D)=D;",
-   "#:(E)!=;",
-   "!:(E)!=E1;",
-   "#:(E)D!=;",
-   "(ER)=ER;",
-   "#:(E)S!=;",
-   "(EE)=E;",
-   "(EA)=E;",
-   "(E)=EH1;",
-   "(F)=F;",
-   "(G)=G;",
-   "(H)#=H;",
-   "(H)=;",
-   "(I)!=AH1,E;",
-   "!(IN)=I1,N;",
-   "(I)$+:#=I;",
-   "(I)$+=AH2,I2;",
-   "(I)=I1;",
-   "(J)=D,J;",
-   "(K)=K;",
-   "(L)L=;",
-   "(L)=L;",
-   "(M)=M;",
-   "(NG)=NG;",
-   "(N)=N;",
-   "(OF)!=UH2,V;",
-   "(OR)=AW,R;",
-   "I(ON)=UH2,N;",
-   "(O)=O;",
-   "(P)=P;",
-   "(QU)=K,W;",
-   "(Q)=K;",
-   "(R)=R;",
-   "(SH)=SH;",
-   "#(SED)!=Z,D;",
-   "(S)S=;",
-   ".(S)=Z;",
-   "(S)=S;",
-   "!(THE)!=THV,UH2;",
-   "(TO)!=T,IU,U1;",
-   "(THAT)!=THV,AE,T;",
-   "(TH)=TH;",
-   "(TI)O=SH;",
-   "(T)=T;",
-   "(U)$$=UH1;",
-   "(U)=Y1,IU,U1;",
-   "(V)=V;",
-   "!(WAS)!=W,AH1,Z;",
-   "(W)=W;",
-   "(X)=K,S;",
-   "#:$(Y)!=E1,E1;",
-   "(Y)=Y;",
-   "(Z)=Z;",
-   "(0)=Z,I1,R,O;",
-   "(1)=W,UH1,N;",
-   "(2)=T,U;",
-   "(3)=TH,ER,E;",
-   "(4)=F,AW,R;",
-   "(5)=F,AH2,I2,V;",
-   "(6)=S,I,K,S;",
-   "(7)=S,EH1,V,EH1,N;",
-   "(8)=A,T;",
-   "(9)=N,AH2,I2,N,ER;",
-   "(,)=PA0;",
-   "(;)=PA0;",
-   "(:)=PA0;",
-   "( )=PA0;",
-   "(.)=PA1,STOP;"
-};
-//_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+   int i;
+
+   // Populate the rule table.
+   for (i = 1; i <= numberOfRules; i++)
+   {
+      RUL_TBL[i] = rules[i];
+   } // for
+
+   // Populate the phonem table.
+   for (i = 1; i <= numberOfPhonems; i++)
+   {
+      PHO_TBL[i].ALPHA = phonemMapPtr[i].ALPHA;
+      PHO_TBL[i].CODE = phonemMapPtr[i].CODE;
+   } // for
+
+} // PhonemMaker
+
+/************************************************************************
+
+  Name: PhonemMaker
+
+  Purpose: The purpose of this function is to serve as the constructor
+  of a PhonemMaker object.
+
+  Calling Sequence: PhonemMaker(rules,
+                                numberOfRules,
+                                phonemMapPtr,
+                                numberOfPhonems)
+
+  Inputs:
+
+    rules - An array of strings that represent the phonetic rules.
+
+    numberOfRules - The number of phonetic rules.
+
+    phonemTable - An array of structures that maps textual phonems to
+    the binary phonem code that is presented to the voice synthesizer.
+
+    numberOfPhonems - The number of phonems in the phonem table.
+
+  Outputs:
+
+    None.
+
+**************************************************************************/
+PhonemMaker::~PhonemMaker(void)
+{
+
+} // ~PhonemMaker
 
 /*****************************************************************************
 
