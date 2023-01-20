@@ -69,9 +69,9 @@ static bool getSystemParameters(int& ruleCount,int& phonemCount)
    success = false;
    numberOfExistingFiles = 0;
 
-   // We're using 1-based arrays, so start with 1.
-   phonemCount = 1;
-   ruleCount = 1;
+   // We're using zero-based arrays.
+   phonemCount = 0;
+   ruleCount = 0;
 
    // Open the textual phonem to binary code mapping file.
    phonemStream = fopen("phonems.txt","r");
@@ -86,7 +86,7 @@ static bool getSystemParameters(int& ruleCount,int& phonemCount)
 
       while (!done)
       {
-         statusPtr = fgets(buffer,100,phonemStream);
+         statusPtr = fgets(buffer,64,phonemStream);
 
          if (statusPtr != NULL)
          {
@@ -213,6 +213,9 @@ int main(int argc, char **argv)
             makerPtr->acceptEnglishText(englishText,
                                         phonemCodePtr,
                                         phonemBufferLength);
+
+            // Send the phonems to the speech synthesizer.
+
          } // if
          else
          {
