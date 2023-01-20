@@ -313,8 +313,6 @@ void PhonemMaker::acceptEnglishText(std::string& INBUF,
    phonemCount = P_INDEX;
    phonemBuffer = P_BUFFER;
 
-fprintf(stderr,"P_INDEX: %d\n",P_INDEX);
-
    return;
 
 } // ENG_TO_PH
@@ -1277,7 +1275,8 @@ void PhonemMaker::STR_T_COD(std::string PH_STR)
    int INDEX;
    bool MATCH;
 
-fprintf(stderr,"STR_T_COD(), PH_STR: %s\n",PH_STR.c_str());
+   // This will be nuked after the system is fully integrated.
+   fprintf(stderr,"STR_T_COD(), PH_STR: %s\n",PH_STR.c_str());
 
    // Point to begining of phonem table.
    INDEX = 0;

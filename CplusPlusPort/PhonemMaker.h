@@ -15,7 +15,7 @@
 // Buffer size defines.
 //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 #define MAXLINE (80)    // Maximum length of input buffer.
-#define MAXPHO (1000)   // Size of phonem buffer.
+#define MAX_PHO (1000)   // Size of phonem buffer.
 #define NUM_PHON (64)   // Number of phonems
 #define NUM_RULE (100)  // Number of rules allowed.
 #define NUM_PH_CH (30)  // Maximum number of phonem characters.
@@ -77,7 +77,7 @@ class PhonemMaker
   char E_BUFFER[MAXLINE];
 
   // Buffer used for phonem storage.
-  uint8_t P_BUFFER[MAXPHO];
+  uint8_t P_BUFFER[MAX_PHO];
 
   // This tables contains the textual phonetic rules.
   std::string RUL_TBL[NUM_RULE];
@@ -92,7 +92,7 @@ class PhonemMaker
   std::string REF_STR;
 
   // Storage for a phonem strings to be evaluated.
-  std::string PH_STR[30];
+  std::string PH_STR[NUM_PH_CH];
 
   // Number of entries in the English buffer.
   int E_LEN;

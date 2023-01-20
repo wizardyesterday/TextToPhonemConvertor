@@ -86,7 +86,7 @@ static bool getSystemParameters(int& ruleCount,int& phonemCount)
 
       while (!done)
       {
-         statusPtr = fgets(buffer,100,phonemStream);
+         statusPtr = fgets(buffer,64,phonemStream);
 
          if (statusPtr != NULL)
          {
@@ -214,8 +214,7 @@ int main(int argc, char **argv)
                                         phonemCodePtr,
                                         phonemBufferLength);
 
-fprintf(stderr,"text: %s  pcodeptr: %p  length: %d\n",
-        englishText.c_str(),phonemCodePtr,phonemBufferLength);
+            // Send the phonems to the speech synthesizer.
 
          } // if
          else
