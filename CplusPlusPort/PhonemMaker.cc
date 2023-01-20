@@ -1001,7 +1001,8 @@ bool PhonemMaker::CMP_REF_S(void)
 
    while (!DONE)
    {
-      if (REF_STR[INDEX] != (E_BUFFER[E_INDEX + INDEX - 1]))
+//      if (REF_STR[INDEX] != (E_BUFFER[E_INDEX + INDEX - 1]))
+      if (REF_STR[INDEX] != (E_BUFFER[E_INDEX + INDEX]))
       {
          DONE = true;
       } // if
