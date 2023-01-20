@@ -74,16 +74,16 @@ class PhonemMaker
   // Attributes.
   //*****************************************
   // English uppercase English text buffer.
-  char E_BUFFER[MAXLINE+1];
+  char E_BUFFER[MAXLINE];
 
   // Buffer used for phonem storage.
-  uint8_t P_BUFFER[MAXPHO+1];
+  uint8_t P_BUFFER[MAXPHO];
 
   // This tables contains the textual phonetic rules.
-  std::string RUL_TBL[NUM_RULE+1];
+  std::string RUL_TBL[NUM_RULE];
 
   // This table is used to map textual phonems to binary values.
-  PhonemToCodeEntry PHO_TBL[NUM_PHON+1];
+  PhonemToCodeEntry PHO_TBL[NUM_PHON];
 
   // Storage for the current rule.
   std::string R_BUFFER;
@@ -91,8 +91,8 @@ class PhonemMaker
   // This is used for string comparison with the English buffer.
   std::string REF_STR;
 
-  // Storage for a phonem string to be evaluated.
-  std::string PH_STR[31];
+  // Storage for a phonem strings to be evaluated.
+  std::string PH_STR[30];
 
   // Number of entries in the English buffer.
   int E_LEN;

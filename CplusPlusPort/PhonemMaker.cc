@@ -310,7 +310,7 @@ void PhonemMaker::acceptEnglishText(std::string& INBUF,
    } // while
 
    // Set return values.  Note that references are being used.
-   phonemCount = P_INDEX - 1;
+   phonemCount = P_INDEX;
    phonemBuffer = P_BUFFER;
 
 fprintf(stderr,"P_INDEX: %d\n",P_INDEX);
@@ -692,7 +692,7 @@ void PhonemMaker::BLD_LIT_P(int RUL_INDX)
                // Bump rule index.
                R_INDEX = R_INDEX + 1;
 
-               if (R_BUFFER[R_INDEX] = ',')
+               if (R_BUFFER[R_INDEX] == ',')
                {
                   // bump index past comma.
                   R_INDEX = R_INDEX + 1;
@@ -1275,6 +1275,8 @@ void PhonemMaker::STR_T_COD(std::string PH_STR)
 {
    int INDEX;
    bool MATCH;
+
+fprintf(stderr,"STR_T_COD(), PH_STR: %s\n",PH_STR.c_str());
 
    // Point to begining of phonem table.
    INDEX = 0;
