@@ -213,6 +213,10 @@ int main(int argc, char **argv)
             makerPtr->acceptEnglishText(englishText,
                                         phonemCodePtr,
                                         phonemBufferLength);
+
+fprintf(stderr,"text: %s  pcodeptr: %p  length: %d\n",
+        englishText.c_str(),phonemCodePtr,phonemBufferLength);
+
          } // if
          else
          {
