@@ -296,7 +296,7 @@ void PhonemMaker::acceptEnglishText(std::string& INBUF,
          case 'Z':
          {
             // Process with the rules of Z.
-            RUL_SRCH(60,1);
+            RUL_SRCH(61,1);
             break;
          } // case
 
@@ -1055,8 +1055,6 @@ void PhonemMaker::BLD_REF_S(int LEF_INDX, int& RT_INDX)
       // Bump right parent index.
       RT_INDX = RT_INDX + 1;
    } // while
-
-fprintf(stderr,"reference string: %s\n",REF_STR.c_str());
 
    return;
 
