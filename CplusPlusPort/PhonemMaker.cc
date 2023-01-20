@@ -40,13 +40,13 @@ PhonemMaker::PhonemMaker(std::string rules[],
    int i;
 
    // Populate the rule table.
-   for (i = 1; i <= numberOfRules; i++)
+   for (i = 0; i < numberOfRules; i++)
    {
       RUL_TBL[i] = rules[i];
    } // for
 
    // Populate the phonem table.
-   for (i = 1; i <= numberOfPhonems; i++)
+   for (i = 0; i < numberOfPhonems; i++)
    {
       PHO_TBL[i].ALPHA = phonemMapPtr[i].ALPHA;
       PHO_TBL[i].CODE = phonemMapPtr[i].CODE;
@@ -102,191 +102,191 @@ void PhonemMaker::acceptEnglishText(std::string& INBUF,
    int INDEX;
 
    // Set to the beginning of the buffers.
-   P_INDEX = 1;
-   E_INDEX = 1;
+   P_INDEX = 0;
+   E_INDEX = 0;
 
    // Compute message length.  Yes, this is redundant.
    E_LEN = INBUF.length();
 
-   for (INDEX = 1; INDEX <= E_LEN; INDEX++)
+   for (INDEX = 0; INDEX < E_LEN; INDEX++)
    {
       // Convert to upper case.
       E_BUFFER[INDEX] = toupper(INBUF[INDEX]);
    } // for
 
-   while (E_INDEX <= E_LEN)
+   while (E_INDEX < E_LEN)
    {
       switch (E_BUFFER[E_INDEX])
       {
          case 'A':
          {
             // Process with the rules of A.
-            RUL_SRCH(1,5);
+            RUL_SRCH(0,5);
             break;
          } // case
 
          case 'B':
           {
             // Process with the rules of B.
-            RUL_SRCH(6,1);
+            RUL_SRCH(5,1);
             break;
          } // case
 
          case 'C':
          {
             // Process with the rules of C.
-            RUL_SRCH(7,3);
+            RUL_SRCH(6,3);
             break;
          } // case
 
          case 'D':
          {
             // Process with the rules of D.
-            RUL_SRCH(10,1);
+            RUL_SRCH(9,1);
             break;
          } // case
 
          case 'E':
          {
             // Process with the rules of E.
-            RUL_SRCH(11,8);
+            RUL_SRCH(10,8);
             break;
          } // case
 
          case 'F':
          {
             // Process with the rules of F.
-            RUL_SRCH(19,1);
+            RUL_SRCH(18,1);
             break;
          } // case
 
          case 'G':
          {
             // Process with the rules of G.
-            RUL_SRCH(20,1);
+            RUL_SRCH(19,1);
             break;
          } // case
 
          case 'H':
          {
             // Process with the rules of H.
-            RUL_SRCH(21,2);
+            RUL_SRCH(20,2);
             break;
          } // case
 
          case 'I':
          {
             // Process with the rules of I.
-            RUL_SRCH(23,5);
+            RUL_SRCH(22,5);
             break;
          } // case
 
          case 'J':
          {
             // Process with the rules of J.
-            RUL_SRCH(28,1);
+            RUL_SRCH(27,1);
          } // case
 
          case 'K':
          {
             // Process with the rules of K.
-            RUL_SRCH(29,1);
+            RUL_SRCH(28,1);
          } // case
 
          case 'L':
          {
             // Process with the rules of L.
-            RUL_SRCH(30,2);
+            RUL_SRCH(29,2);
          } // case
 
          case 'M':
          {
             // Process with the rules of M.
-            RUL_SRCH(32,1);
+            RUL_SRCH(31,1);
          } // case
 
          case 'N':
          {
             // Process with the rules of N.
-            RUL_SRCH(33,2);
+            RUL_SRCH(32,2);
          } // case
 
          case 'O':
          {
             // Process with the rules of O.
-            RUL_SRCH(35,4);
+            RUL_SRCH(34,4);
          } // case
 
          case 'P':
          {
             // Process with the rules of P.
-            RUL_SRCH(39,1);
+            RUL_SRCH(38,1);
          } // case
 
          case 'Q':
          {
             // Process with the rules of Q.
-            RUL_SRCH(40,2);
+            RUL_SRCH(39,2);
          } // case
 
          case 'R':
          {
             // Process with the rules of R.
-            RUL_SRCH(42,1);
+            RUL_SRCH(41,1);
          } // case
 
          case 'S':
          {
             // Process with the rules of S.
-            RUL_SRCH(43,5);
+            RUL_SRCH(42,5);
          } // case
 
          case 'T':
          {
             // Process with the rules of T.
-            RUL_SRCH(48,6);
+            RUL_SRCH(47,6);
          } // case
 
          case 'U':
          {
             // Process with the rules of U.
-            RUL_SRCH(54,2);
+            RUL_SRCH(53,2);
          } // case
 
          case 'V':
          {
             // Process with the rules of V.
-            RUL_SRCH(56,1);
+            RUL_SRCH(55,1);
          } // case
 
          case 'W':
          {
             // Process with the rules of W.
-            RUL_SRCH(57,2);
+            RUL_SRCH(56,2);
          } // case
 
          case 'X':
          {
             // Process with the rules of X.
-            RUL_SRCH(59,1);
+            RUL_SRCH(58,1);
          } // case
 
          case 'Y':
          {
             // Process with the rules of Y.
-            RUL_SRCH(60,2);
+            RUL_SRCH(59,2);
          } // case
 
          case 'Z':
          {
             // Process with the rules of Z.
-            RUL_SRCH(62,1);
+            RUL_SRCH(60,1);
          } // case
 
          default:
          {
             // Process as a digit or symbol.
-            RUL_SRCH(63,15);
+            RUL_SRCH(62,15);
          } // case
       } // switch
    } // while
@@ -298,7 +298,6 @@ void PhonemMaker::acceptEnglishText(std::string& INBUF,
    return;
 
 } // ENG_TO_PH
-
    
 /******************************************************************************
 
@@ -316,7 +315,6 @@ bool PhonemMaker::IS_ALPHA(char CH)
    return (result);
 
 } // IS_ALPHA
-
 
 /*****************************************************************************
 
@@ -466,7 +464,7 @@ void PhonemMaker::RT_PS_VWL(int& R_INDEX, bool& OCCURED)
   // Clear initially.
    OCCURED = false;
 
-   if (R_INDEX <= E_LEN)
+   if (R_INDEX < E_LEN)
    {
       // Clear initially.
       DONE = false;
@@ -487,7 +485,7 @@ void PhonemMaker::RT_PS_VWL(int& R_INDEX, bool& OCCURED)
             DONE = true;
          } // else
 
-         if (R_INDEX > E_LEN)
+         if (R_INDEX > E_LEN-1)
          {
             // Bail out if past buffer limits.
             DONE = true;
@@ -509,7 +507,7 @@ void PhonemMaker::RT_PS_CST(int& R_INDEX, bool& OCCURED)
 {
    bool DONE;
 
-   if (R_INDEX <= E_LEN)
+   if (R_INDEX < E_LEN)
    {
       // Set up for loop entry.
       DONE = false;
@@ -527,7 +525,7 @@ void PhonemMaker::RT_PS_CST(int& R_INDEX, bool& OCCURED)
             R_INDEX = R_INDEX + 1;
          } // else
 
-         if (R_INDEX > E_LEN)
+         if (R_INDEX > E_LEN-1)
          {
             // Bail out if past buffer limits.
             DONE = true;
@@ -556,7 +554,7 @@ void PhonemMaker::LF_PS_VWL(int& R_INDEX, bool& OCCURED)
    // Clear initially.
    OCCURED = false;
 
-   if (R_INDEX >= 1)
+   if (R_INDEX >= 0)
    {
       // Set up for loop entry.
       DONE = false;
@@ -577,7 +575,7 @@ void PhonemMaker::LF_PS_VWL(int& R_INDEX, bool& OCCURED)
             DONE = true;
          } // else
 
-         if (R_INDEX < 1)
+         if (R_INDEX < 0)
          {
             // Bail out if past lower bounds.
             DONE = true;
@@ -600,7 +598,7 @@ void PhonemMaker::LF_PS_CST(int& R_INDEX, bool& OCCURED)
 {
    bool DONE;
 
-   if (R_INDEX >= 1)
+   if (R_INDEX >= 0)
    {
       // Set up for loop entry.
       DONE = false;
@@ -618,7 +616,7 @@ void PhonemMaker::LF_PS_CST(int& R_INDEX, bool& OCCURED)
             R_INDEX = R_INDEX - 1;
          } // else
 
-         if (R_INDEX < 1)
+         if (R_INDEX < 0)
          {
             // Bail out if past lower bounds.
             DONE = true;
@@ -647,14 +645,14 @@ void PhonemMaker::BLD_LIT_P(int RUL_INDX)
    bool DONE;
 
    // Point to beginning of result buffer.
-   RES_INDX = 1;
+   RES_INDX = 0;
 
    // Point past '=' sign.
    R_INDEX = RUL_INDX + 1;
 
    if (R_BUFFER[R_INDEX] != ';')
    {
-      for (INDEX = 1; INDEX <= NUM_PH_CH; INDEX++)
+      for (INDEX = 0; INDEX < NUM_PH_CH; INDEX++)
       {
          // Clear phonem string array.
          PH_STR[INDEX] = "";
@@ -726,7 +724,7 @@ void PhonemMaker::SC_RT_CTX(int RT_INDX, int& RUL_INDX, bool& FOUND)
 
    if (R_BUFFER[RUL_INDX] != '=')
    {
-      if ((E_INDEX + REF_STR.length()) <= E_LEN)
+      if ((E_INDEX + REF_STR.length()) < E_LEN)
       {
          // Set up running index.
          R_INDEX = E_INDEX + REF_STR.length();
@@ -854,7 +852,7 @@ void PhonemMaker::SC_LF_CTX(int LEF_INDX, bool& FOUND)
    WI_RULES = false;
    OCCURED = false;
 
-   if (E_INDEX > 1)
+   if (E_INDEX > 0)
    {
       // Point to the left of parent.
       RUL_INDX = LEF_INDX - 1;
@@ -865,7 +863,7 @@ void PhonemMaker::SC_LF_CTX(int LEF_INDX, bool& FOUND)
       // Clear initially.
       DONE = false;
 
-      while ((!DONE) && (RUL_INDX >= 1))
+      while ((!DONE) && (RUL_INDX >= 0))
       {
          switch (R_BUFFER[RUL_INDX])
          {
@@ -928,12 +926,12 @@ void PhonemMaker::SC_LF_CTX(int LEF_INDX, bool& FOUND)
          // Decrement rule index.
          RUL_INDX = RUL_INDX - 1;
 
-         if (R_INDEX < 1)
+         if (R_INDEX < 0)
          {
             // Exit scan loop.
             DONE = true;
 
-            if (RUL_INDX >= 1)
+            if (RUL_INDX >= 0)
             {
                EITHER = false;
             } // if
@@ -973,10 +971,10 @@ bool PhonemMaker::CMP_REF_S(void)
    bool DONE;
 
    // Point to the beginning of the reference string.
-   INDEX = 1;
+   INDEX = 0;
 
    // Set upper limit.
-   LIMIT = REF_STR.length();
+   LIMIT = REF_STR.length() - 1;
 
    // Set up for loop entry.
    DONE = false;
@@ -1052,7 +1050,7 @@ void PhonemMaker::FI_LF_PAR(int& LEF_INDX)
 {
 
    // Point to beginning of buffer.
-   LEF_INDX = 1;
+   LEF_INDX = 0;
 
    while (R_BUFFER[LEF_INDX] != '(')
    {
@@ -1090,7 +1088,7 @@ bool PhonemMaker::SCAN(void)
    // Compare reference string to English.
    if (CMP_REF_S())
    {
-      if (LEF_INDX > 1)
+      if (LEF_INDX > 0)
       {
          // Scan left context.
          SC_LF_CTX(LEF_INDX,WI_RULES);
@@ -1259,7 +1257,7 @@ void PhonemMaker::STR_T_COD(std::string PH_STR)
    bool MATCH;
 
    // Point to begining of phonem table.
-   INDEX = 1;
+   INDEX = 0;
 
    // Clear initially.
    MATCH = false;
@@ -1299,7 +1297,7 @@ void PhonemMaker::PH_TO_COD(void)
    int INDEX;
 
    // Point to beginning of array.
-   INDEX = 1;
+   INDEX = 0;
 
    while (PH_STR[INDEX] != ";")
    {
