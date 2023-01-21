@@ -63,19 +63,3 @@ connector.  After perusing the schematic, it is clear that 10 bits of I/O
 are needed: 6 bits for the phonem code, 2 bits for the inflection code,
 1 bit for the strobe, and 1 bit for reading the status of the SC-01 chip.
 
--------------------------------------------------
-01/16/2023
--------------------------------------------------
-I have created a CplusPlusPort directory that contains my work related to
-porting the Pascal/MT+ code to C++.  Many of the Pascal functions and
-procedures use the 'var' keyword before some of the parameters.  As as
-known this implies that the address of the parameter is passed to the
-procedure/function.  Originally, I decided to replace the 'var' parameters
-with pointers to the arguments.  The changes to the source code became far
-too cumbersome, so I decided to use reference parameters instead.  This way,
-the only thing I have to change is the signature of each function.  That is,
-instead of using (int *myvalue), I use (int& myvalue).
-
-I wrote rapid prototype code in C++ to make sure that things worked as I
-expected, and I see that this should work fairly well.
-
