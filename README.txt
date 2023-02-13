@@ -1,7 +1,7 @@
 Years ago, there was an article in the Circuit Cellar column of Byte
 Magazine that discussed converting text to speech using sound rules.  
 This device was called the MicroVox.  Part 1 (the hardware) was described
-in October 1981, and part 2 (the software) was described in October 1982.
+in September 1981, and part 2 (the software) was described in October 1982.
 I had decided to build a synthesizer and write software in Pascal/MT+ 
  (and some Z80 assembly language) on a CP/M machine.  I had actually built
 the hardware and wrote the software probably in 1984.
